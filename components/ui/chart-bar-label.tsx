@@ -1,13 +1,10 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
 
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -20,34 +17,27 @@ import {
 
 export const description = "A bar chart with a label"
 
-const chartData = [
-  { month: "January", desktop: 305 },
-  { month: "February", desktop: 290 },
-  { month: "March", desktop: 270 },
-  { month: "April", desktop: 250 },
-  { month: "May", desktop: 230 },
-  { month: "June", desktop: 210 },
-  { month: "July", desktop: 190 },
-  { month: "August", desktop: 170 },
-  { month: "September", desktop: 150 },
-  { month: "October", desktop: 130 },
-  { month: "November", desktop: 110 },
-  { month: "December", desktop: 90 }
-]
+type ChartBarData = { year: string; total: number };
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  total: {
+    label: "Total",
     color: "var(--chart-1)",
   },
 } satisfies ChartConfig
 
-export function ChartBarLabel() {
+interface ChartBarLabelProps {
+  title: string;
+  data: ChartBarData[];
+}
+
+export function ChartBarLabel({ title, data }: ChartBarLabelProps) {
+  // Ensure we only use up to 30 years
+  const chartData = data.slice(0, 30);
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Mortgage Balance Over Time</CardTitle>
-        <CardDescription>January - December 2025</CardDescription>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -60,7 +50,7 @@ export function ChartBarLabel() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="year"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
@@ -68,15 +58,9 @@ export function ChartBarLabel() {
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent hideLabel className="min-w-[10rem]" />}
             />
-            <Bar dataKey="desktop" fill="var(--color-brand-primary)" radius={6}>
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
-                fontSize={12}
-              />
+            <Bar dataKey="total" fill="var(--color-brand-primary)" radius={6}>
             </Bar>
           </BarChart>
         </ChartContainer>
