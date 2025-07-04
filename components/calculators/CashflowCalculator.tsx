@@ -79,14 +79,9 @@ function CashflowCalculator() {
 
   // Pie chart data for donut
   const pieChartData = [
-    { label: "Income", value: totalIncome, fill: "#4ade80" },
-    { label: "Expenses", value: totalExpenses, fill: "#f87171" },
+    { label: "income", value: totalIncome, fill: "#4ade80" },
+    { label: "expenses", value: totalExpenses, fill: "#f87171" },
   ];
-  if (netCashflow > 0) {
-    pieChartData.push({ label: "Net Cashflow", value: netCashflow, fill: "#60a5fa" });
-  } else if (netCashflow < 0) {
-    pieChartData.push({ label: "Net Loss", value: Math.abs(netCashflow), fill: "#fbbf24" });
-  }
 
   return (
     <main className="max-w-7xl mx-auto">
@@ -229,7 +224,7 @@ function CashflowCalculator() {
                       ${netCashflow.toLocaleString("en-US", { maximumFractionDigits: 2 })}
                     </span>
                   </div>
-                  <ChartPieDonutText />
+                  <ChartPieDonutText data={pieChartData} />
                 </div>
               </CardContent>
             </Card>
