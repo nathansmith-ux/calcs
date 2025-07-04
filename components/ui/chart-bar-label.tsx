@@ -29,9 +29,10 @@ const chartConfig = {
 interface ChartBarLabelProps {
   title: string;
   data: ChartBarData[];
+  barColor?: string;
 }
 
-export function ChartBarLabel({ title, data }: ChartBarLabelProps) {
+export function ChartBarLabel({ title, data, barColor }: ChartBarLabelProps) {
   // Ensure we only use up to 30 years
   const chartData = data.slice(0, 30);
   return (
@@ -60,7 +61,7 @@ export function ChartBarLabel({ title, data }: ChartBarLabelProps) {
               cursor={false}
               content={<ChartTooltipContent hideLabel className="min-w-[10rem]" />}
             />
-            <Bar dataKey="total" fill="var(--color-brand-primary)" radius={6}>
+            <Bar dataKey="total" fill={barColor || "var(--color-brand-fourth)"} radius={6}>
             </Bar>
           </BarChart>
         </ChartContainer>

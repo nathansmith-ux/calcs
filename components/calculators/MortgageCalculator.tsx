@@ -287,18 +287,18 @@ function MortgageCalculator() {
     // If no extra principal, return original pie chart
     if (!extraPrincipal) {
       return [
-        { label: "Principle Paid", value: principalPaid, fill: "black0" },
-        { label: "Interest Paid", value: totalInterest, fill: "var(--color-brand-primary)" },
-        { label: "Remaining Principle", value: remainingPrincipal, fill: "var(--color-brand-secondary)" },
+        { label: "Principle Paid", value: principalPaid, fill: "var(--color-brand-third)" },
+        { label: "Interest Paid", value: totalInterest, fill: "var(--color-brand-fourth)" },
+        { label: "Remaining Principle", value: remainingPrincipal, fill: "var(--color-brand-fifth)" },
       ];
     }
 
     // If extra principal, show it as a separate slice
     return [
-      { label: "Principle Paid", value: principalPaid, fill: "black0" },
-      { label: "Extra Principal Paid", value: extraPrincipal, fill: "#4ade80" }, // green
-      { label: "Interest Paid", value: totalInterest, fill: "var(--color-brand-primary)" },
-      { label: "Remaining Principle", value: remainingPrincipal, fill: "var(--color-brand-secondary)" },
+      { label: "Principle Paid", value: principalPaid, fill: "var(--color-brand-third)" },
+      { label: "Extra Principal Paid", value: extraPrincipal, fill: "var(--color-brand-fifth)" }, 
+      { label: "Interest Paid", value: totalInterest, fill: "var(--color-brand-fourth)" },
+      { label: "Remaining Principle", value: remainingPrincipal, fill: "var(--color-brand-primary)" },
     ];
   }
 
@@ -642,6 +642,7 @@ function MortgageCalculator() {
               <ChartBarLabel 
                 title="Accelerated Mortgage Payoff (with Extra Payments)"
                 data={acceleratedChartData}
+                barColor="var(--color-brand-third)"
               />
             </section>
             {/* Explanation of accelerated payoff */}

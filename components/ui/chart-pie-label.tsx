@@ -22,15 +22,15 @@ const chartConfig = {
   },
   "principle-paid": {
     label: "Principle Paid",
-    color: "var(--chart-1)",
+    color: "var(--color-brand-primary)",
   },
   "interest-paid": {
     label: "Interest Paid",
-    color: "var(--chart-2)",
+    color: "var(--color-brand-third)",
   },
   "remaining-principle": {
     label: "Remaining Principle",
-    color: "var(--chart-3)",
+    color: "var(--color-brand-fourth)",
   },
 } satisfies ChartConfig
 
