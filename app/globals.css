@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-brand-primary: #973334;
+  --color-brand-primary: #172F48;
   --color-brand-secondary: #022851;
   --color-brand-third: #172F48;
   --color-brand-fourth: #62879F;

@@ -17,7 +17,6 @@ interface CashflowItem {
   amount: string;
   type: "income" | "expense";
   timePeriod: "monthly" | "yearly" | "annual";
-  category: string;
 }
 
 interface State {
@@ -26,31 +25,37 @@ interface State {
 }
 
 type Action =
+  | { type: "ADD_ITEM"; payload: { type: "income" | "expense" } }
+  | { type: "REMOVE_ITEM"; payload: { id: string } }
   | { type: "UPDATE_ITEM"; payload: { id: string; name?: string; amount?: string; timePeriod?: "monthly" | "yearly" | "annual" } }
   | { type: "SET_DISPLAY_PERIOD"; payload: "monthly" | "yearly" | "quarterly" };
 
 const initialState: State = {
   items: [
-    // Income items
-    { id: "rental-income", name: "Rental Income", amount: "2500", type: "income", timePeriod: "monthly", category: "rental" },
-    { id: "other-income", name: "Other Income", amount: "200", type: "income", timePeriod: "monthly", category: "other" },
-    
-    // Expense items
-    { id: "mortgage", name: "Mortgage Payment", amount: "1200", type: "expense", timePeriod: "monthly", category: "debt" },
-    { id: "property-tax", name: "Property Tax", amount: "3600", type: "expense", timePeriod: "yearly", category: "tax" },
-    { id: "insurance", name: "Insurance", amount: "1200", type: "expense", timePeriod: "yearly", category: "insurance" },
-    { id: "property-management", name: "Property Management", amount: "250", type: "expense", timePeriod: "monthly", category: "management" },
-    { id: "maintenance", name: "Maintenance & Repairs", amount: "150", type: "expense", timePeriod: "monthly", category: "maintenance" },
-    { id: "utilities", name: "Utilities", amount: "0", type: "expense", timePeriod: "monthly", category: "utilities" },
-    { id: "hoa", name: "HOA Fees", amount: "0", type: "expense", timePeriod: "monthly", category: "hoa" },
-    { id: "vacancy", name: "Vacancy Allowance", amount: "125", type: "expense", timePeriod: "monthly", category: "vacancy" },
-    { id: "cap-ex", name: "Capital Expenditures", amount: "100", type: "expense", timePeriod: "monthly", category: "capex" },
+    { id: "income-1", name: "Monthly Salary", amount: "4000", type: "income", timePeriod: "monthly" },
+    { id: "expense-1", name: "Rent", amount: "1000", type: "expense", timePeriod: "monthly" },
   ],
   displayPeriod: "monthly",
 };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
+    case "ADD_ITEM": {
+      const id = `${action.payload.type}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+      return {
+        ...state,
+        items: [
+          ...state.items,
+          { id, name: "", amount: "", type: action.payload.type, timePeriod: "monthly" },
+        ],
+      };
+    }
+    case "REMOVE_ITEM": {
+      return {
+        ...state,
+        items: state.items.filter((item) => item.id !== action.payload.id),
+      };
+    }
     case "UPDATE_ITEM": {
       return {
         ...state,
@@ -72,7 +77,7 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-function CashflowCalculator() {
+function BudgetCalculator() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // Convert amounts to monthly based on item's time period
@@ -121,17 +126,13 @@ function CashflowCalculator() {
   const displayExpenses = convertToDisplayAmount(totalExpenses, state.displayPeriod);
   const displayNetCashflow = convertToDisplayAmount(netCashflow, state.displayPeriod);
 
-  // Group items by category for better organization
-  const incomeItems = state.items.filter((item) => item.type === "income");
-  const expenseItems = state.items.filter((item) => item.type === "expense");
-
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 pt-8 md:pt-20">
         {/* Left: Inputs and Explanations */}
         <div className="w-full order-2 lg:order-1">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 space-y-2 sm:space-y-0">
-            <h1 className="text-3xl md:text-4xl font-bold text-brand-primary">Cashflow Calculator</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-brand-primary">Budget Calculator</h1>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">View:</span>
               <Select
@@ -152,17 +153,17 @@ function CashflowCalculator() {
             </div>
           </div>
           <p className="mb-4 text-sm md:text-base">
-            Enter your property's income and expenses below. Each item can have its own time period (Monthly, Yearly, or Annual). 
+            Add your income and expenses below. Each item can have its own time period (Monthly, Yearly, or Annual). 
             All calculations are converted to monthly for accurate cashflow analysis, then displayed in your selected view.
           </p>
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-2">Income</h2>
-            {incomeItems.map((item) => (
+            {state.items.filter((item) => item.type === "income").map((item) => (
               <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-2 space-y-2 sm:space-y-0">
                 <Input
                   className="w-full sm:w-2/5"
                   type="text"
-                  placeholder={item.name}
+                  placeholder="Income name"
                   value={item.name}
                   onChange={(e) =>
                     dispatch({
@@ -204,17 +205,32 @@ function CashflowCalculator() {
                     <SelectItem value="annual">Annual</SelectItem>
                   </SelectContent>
                 </Select>
+                <button
+                  type="button"
+                  className="text-lg px-2 py-1 rounded hover:bg-gray-100 self-start sm:self-center"
+                  aria-label="Remove income"
+                  onClick={() => dispatch({ type: "REMOVE_ITEM", payload: { id: item.id } })}
+                >
+                  ×
+                </button>
               </div>
             ))}
+            <button
+              type="button"
+              className="mt-2 px-3 py-1 rounded border bg-white hover:bg-gray-100 text-sm font-medium"
+              onClick={() => dispatch({ type: "ADD_ITEM", payload: { type: "income" } })}
+            >
+              + Add Income
+            </button>
           </div>
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-2">Expenses</h2>
-            {expenseItems.map((item) => (
+            {state.items.filter((item) => item.type === "expense").map((item) => (
               <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-2 space-y-2 sm:space-y-0">
                 <Input
                   className="w-full sm:w-2/5"
                   type="text"
-                  placeholder={item.name}
+                  placeholder="Expense name"
                   value={item.name}
                   onChange={(e) =>
                     dispatch({
@@ -256,18 +272,34 @@ function CashflowCalculator() {
                     <SelectItem value="annual">Annual</SelectItem>
                   </SelectContent>
                 </Select>
+                <button
+                  type="button"
+                  className="text-lg px-2 py-1 rounded hover:bg-gray-100 self-start sm:self-center"
+                  aria-label="Remove expense"
+                  onClick={() => dispatch({ type: "REMOVE_ITEM", payload: { id: item.id } })}
+                >
+                  ×
+                </button>
               </div>
             ))}
+            <button
+              type="button"
+              className="mt-2 px-3 py-1 rounded border bg-white hover:bg-gray-100 text-sm font-medium"
+              onClick={() => dispatch({ type: "ADD_ITEM", payload: { type: "expense" } })}
+            >
+              + Add Expense
+            </button>
           </div>
           <div className="mt-4 bg-muted p-4 rounded-lg">
             <h3 className="font-semibold text-base mb-2">How to Use</h3>
             <ul className="list-disc pl-5 text-sm space-y-1">
-              <li>Enter your property's actual income and expenses in the predefined fields.</li>
-              <li>Each field can have its own time period (Monthly, Yearly, or Annual).</li>
+              <li>Each income and expense item can have its own time period (Monthly, Yearly, or Annual).</li>
               <li>Use the "View" dropdown to switch between Monthly, Quarterly, and Yearly summaries.</li>
+              <li>Add as many income and expense rows as you need.</li>
+              <li>Enter the amount and select the appropriate time period for each item.</li>
               <li>All amounts are automatically converted to monthly for accurate cashflow analysis.</li>
+              <li>Remove any row by clicking the × button.</li>
               <li>See your total income, expenses, and net cashflow summary on the right.</li>
-              <li>This calculator is designed for real estate investors to analyze property cashflow.</li>
             </ul>
           </div>
         </div>
@@ -315,4 +347,4 @@ function CashflowCalculator() {
   );
 }
 
-export default CashflowCalculator; 
+export default BudgetCalculator; 

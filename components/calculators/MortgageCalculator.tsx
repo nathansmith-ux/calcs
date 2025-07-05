@@ -389,41 +389,20 @@ function MortgageCalculator() {
   const acceleratedChartData = hasExtraPayments ? generateAcceleratedChartData() : chartData;
 
   return (
-    <main className="max-w-7xl mx-auto">
-      <section className="grid grid-cos-1 md:grid-cols-2 gap-4 md:gap-8 pt-20">
-        <div className="w-full">
-          <h1 className="text-4xl font-bold text-brand-primary">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 pt-8 md:pt-20">
+        <div className="w-full order-2 lg:order-1">
+          <h1 className="text-3xl md:text-4xl font-bold text-brand-primary">
             Mortgage Calculator
           </h1>
-          <p className="mt-3">Plan your mortgage with precision using Team Logue's mortgage calculators. Our calculators helps you estimate mortgage payments and potential savings.</p>
-          {/* <div className="flex items-center space-x-2 mt-3">
-            <Switch
-              id="condo-mode"
-              checked={state.isCondo}
-              onCheckedChange={handleSetCondo}
-            />
-            <Label htmlFor="condo-mode">Living In a Condo</Label>
-          </div> 
-          {state.isCondo && (
-            <>
-              <p className="text-sm text-brand-primary mt-3">You need to account for condo fees as this will contribute to your total monthly costs. Please add your condo/maintenance fees to the below</p>
-              <div className="mt-3 w-1/4">
-                <Input
-                  type="text"
-                  placeholder="$750"
-                  value={state.condoFee ? Number(state.condoFee).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                  onChange={e => {
-                    const raw = e.target.value.replace(/[^\d.]/g, '');
-                    dispatch({ type: 'SET_CONDO_FEE', payload: raw });
-                  }}
-                />
-              </div>
-            </>  
-          )} */}
-          <section className="grid grid-cols-6 gap-6 my-6 lg:my-12">
-            <div className="col-span-4">
+          <p className="mt-3 text-sm md:text-base">Plan your mortgage with precision using Team Logue's mortgage calculators. Our calculators helps you estimate mortgage payments and potential savings.</p>
+          <section className="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6 my-6 lg:my-12">
+            <div className="md:col-span-4">
+              <div>
+              <Label>Mortgage Amount</Label>
               <Input
                 type="text"
+                className="mt-2"
                 placeholder="Mortgage Amount"
                 value={state.mortgageAmount ? Number(state.mortgageAmount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
                 onChange={e => {
@@ -431,6 +410,7 @@ function MortgageCalculator() {
                   dispatch({ type: 'SET_MORTGAGE_AMOUNT', payload: raw });
                 }}
               />
+              </div>
               <div className="mt-2">
                 <Slider
                   value={[Number(state.mortgageAmount) || 0]}
@@ -441,12 +421,13 @@ function MortgageCalculator() {
                 />
               </div>              
               </div>
-            <div className="col-span-2">
+            <div className="md:col-span-2">
+            <Label>Payment Frequency</Label>
             <Select
               value={state.paymentFrequency}
               onValueChange={val => dispatch({ type: 'SET_PAYMENT_FREQUENCY', payload: val })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="mt-2">
                 <SelectValue placeholder="Payment frequency" />
               </SelectTrigger>
               <SelectContent>
@@ -464,78 +445,91 @@ function MortgageCalculator() {
           <section className="my-6 lg:my-12">
             <div className="flex items-center">
               <Percent strokeWidth={0.5} size={20}/>
-              <h2 className="ml-2">Interest Rate</h2>
+              <h2 className="ml-2 text-lg md:text-xl">Interest Rate</h2>
             </div>
             <div className="mt-3">
-              <p>Your mortgage interest rate can either be Fixed for the term or Variable (which changes with the prime rate). The Rate Term is the contract length with a lender.</p>
+              <p className="text-sm md:text-base">Your mortgage interest rate can either be Fixed for the term or Variable (which changes with the prime rate). The Rate Term is the contract length with a lender.</p>
             </div>
-            <section className="grid grid-cols-6 gap-6 mt-6">
-              <div className="col-span-2 flex items-center">
+            <section className="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6 mt-6">
+              <div className="md:col-span-2 flex items-center">
+                <div className="w-full">
+                <Label>Interest Rate</Label>
                 <Input
                   type="text"
                   placeholder="2.5%"
+                  className="mt-2"
                   value={state.interestRate ? Number(state.interestRate).toLocaleString("en-US", { maximumFractionDigits: 2 }) : ''}
                   onChange={e => {
                     const raw = e.target.value.replace(/[^\d.]/g, '');
                     dispatch({ type: 'SET_INTEREST_RATE', payload: raw });
                   }}
                 />
+                </div>
               </div>
-              <div className="col-span-1 flex items-center">
-                <Select
-                  value={state.rateTerm}
-                  onValueChange={val => dispatch({ type: 'SET_RATE_TERM', payload: val })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Rate term" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Rate Term</SelectLabel>
-                      <SelectItem value="fiveYear">5 Year</SelectItem>
-                      <SelectItem value="tenYear">10 Year</SelectItem>
-                      <SelectItem value="fifteenYear">15 Year</SelectItem>
-                      <SelectItem value="twentyYear">20 Year</SelectItem>
-                      <SelectItem value="twentyFiveYear">25 Year</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+              <div className="md:col-span-1 flex items-center">
+                <div className="w-full">
+                  <Label>Rate Term</Label>
+                  <Select
+                    value={state.rateTerm}
+                    onValueChange={val => dispatch({ type: 'SET_RATE_TERM', payload: val })}
+                  >
+                    <SelectTrigger className="mt-2">
+                      <SelectValue placeholder="Rate term" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Rate Term</SelectLabel>
+                        <SelectItem value="fiveYear">5 Year</SelectItem>
+                        <SelectItem value="tenYear">10 Year</SelectItem>
+                        <SelectItem value="fifteenYear">15 Year</SelectItem>
+                        <SelectItem value="twentyYear">20 Year</SelectItem>
+                        <SelectItem value="twentyFiveYear">25 Year</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <div className="col-span-3 pl-6 flex items-center space-x-2">
-                <Select
-                  value={state.amortization}
-                  onValueChange={val => dispatch({ type: 'SET_AMORTIZATION', payload: val })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Amortization" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Amortization</SelectLabel>
-                      <SelectItem value="fiveYear">5 Year</SelectItem>
-                      <SelectItem value="tenYear">10 Year</SelectItem>
-                      <SelectItem value="fifteenYear">15 Year</SelectItem>
-                      <SelectItem value="twentyYear">20 Year</SelectItem>
-                      <SelectItem value="twentyFiveYear">25 Year</SelectItem>
-                      <SelectItem value="thirtyYear">30 Year</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <Select
-                  value={state.interestType}
-                  onValueChange={val => dispatch({ type: 'SET_INTEREST_TYPE', payload: val })}
-                >
-                  <SelectTrigger className="w-28">
-                    <SelectValue placeholder="Interest Type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Interest Type</SelectLabel>
-                      <SelectItem value="fixed">Fixed</SelectItem>
-                      <SelectItem value="variable">Variable</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+              <div className="md:col-span-3 md:pl-6 flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-2">
+                <div className="flex-1 w-full md:w-auto">
+                  <Label>Amortization Period</Label>
+                  <Select
+                    value={state.amortization}
+                    onValueChange={val => dispatch({ type: 'SET_AMORTIZATION', payload: val })}
+                  >
+                    <SelectTrigger className="mt-2">
+                      <SelectValue placeholder="Amortization" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Amortization</SelectLabel>
+                        <SelectItem value="fiveYear">5 Year</SelectItem>
+                        <SelectItem value="tenYear">10 Year</SelectItem>
+                        <SelectItem value="fifteenYear">15 Year</SelectItem>
+                        <SelectItem value="twentyYear">20 Year</SelectItem>
+                        <SelectItem value="twentyFiveYear">25 Year</SelectItem>
+                        <SelectItem value="thirtyYear">30 Year</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="w-full md:w-auto">
+                  <Label>Interest Type</Label>
+                  <Select
+                    value={state.interestType}
+                    onValueChange={val => dispatch({ type: 'SET_INTEREST_TYPE', payload: val })}
+                  >
+                    <SelectTrigger className="w-full md:w-28 mt-2">
+                      <SelectValue placeholder="Interest Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Interest Type</SelectLabel>
+                        <SelectItem value="fixed">Fixed</SelectItem>
+                        <SelectItem value="variable">Variable</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </section>
           </section>
@@ -543,15 +537,15 @@ function MortgageCalculator() {
             <section className="my-6 lg:my-12">
             <div className="flex items-center">
               <HandCoins strokeWidth={0.5} size={20}/>
-              <h2 className="ml-2">Pay Off Mortgage Faster</h2>
+              <h2 className="ml-2 text-lg md:text-xl">Pay Off Mortgage Faster</h2>
             </div>
             <div className="mt-3">
-              <p>Accelerate your mortgage payoff by making extra payments. You can add recurring extra payments or a one-time lump sum payment.</p>
+              <p className="text-sm md:text-base">Accelerate your mortgage payoff by making extra payments. You can add recurring extra payments or a one-time lump sum payment.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <div>
                 <Label>Recurring Extra Payment</Label>
-                <div className="flex items-center space-x-2 mt-1">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-1">
                   <Input
                     type="text"
                     placeholder="$100"
@@ -560,13 +554,13 @@ function MortgageCalculator() {
                       const raw = e.target.value.replace(/[^\d.]/g, '');
                       dispatch({ type: 'SET_EXTRA_RECURRING_PAYMENT_AMOUNT', payload: raw });
                     }}
-                    className="w-24"
+                    className="w-full sm:w-24"
                   />
                   <Select
                     value={state.extraRecurringPayment.frequency}
                     onValueChange={val => dispatch({ type: 'SET_EXTRA_RECURRING_PAYMENT_FREQUENCY', payload: val })}
                   >
-                    <SelectTrigger className="w-32">
+                    <SelectTrigger className="w-full sm:w-32 mt-2">
                       <SelectValue placeholder="Frequency" />
                     </SelectTrigger>
                     <SelectContent>
@@ -582,7 +576,7 @@ function MortgageCalculator() {
               </div>
               <div>
                 <Label>One-Time Extra Payment</Label>
-                <div className="flex items-center space-x-2 mt-1">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-1">
                   <Input
                     type="text"
                     placeholder="$5000"
@@ -591,7 +585,7 @@ function MortgageCalculator() {
                       const raw = e.target.value.replace(/[^\d.]/g, '');
                       dispatch({ type: 'SET_EXTRA_ONE_TIME_PAYMENT_AMOUNT', payload: raw });
                     }}
-                    className="w-24"
+                    className="w-full sm:w-24"
                   />
                   <Input
                     type="text"
@@ -601,7 +595,7 @@ function MortgageCalculator() {
                       const raw = e.target.value.replace(/[^\d]/g, '');
                       dispatch({ type: 'SET_EXTRA_ONE_TIME_PAYMENT_YEAR', payload: raw });
                     }}
-                    className="w-24"
+                    className="w-full sm:w-24"
                   />
                 </div>
               </div>
@@ -620,49 +614,53 @@ function MortgageCalculator() {
             <section className="my-6 lg:my-12">
             <div className="flex items-center">
               <HandCoins strokeWidth={0.5} size={20}/>
-              <h2 className="ml-2">Payments over Time</h2>
+              <h2 className="ml-2 text-lg md:text-xl">Payments over Time</h2>
             </div>
             <div className="mt-3">
-              <p>Your mortgage interest rate can either be Fixed for the term or Variable (which changes with the prime rate). The Rate Term is the contract length with a lender.</p>
+              <p className="text-sm md:text-base">Your mortgage interest rate can either be Fixed for the term or Variable (which changes with the prime rate). The Rate Term is the contract length with a lender.</p>
             </div>
             <Separator className="my-4" />
             <section className="mt-6">
               <h3 className="font-semibold text-lg mb-2">Standard Mortgage Payoff Timeline</h3>
               <p className="mb-4 text-muted-foreground text-sm">This chart shows your mortgage balance decreasing over time with your current payment schedule, without any extra payments.</p>
-              <ChartBarLabel 
-                title="Mortgage Balance Over Time"
-                data={chartData}
-              />
+              <div className="overflow-x-auto">
+                <ChartBarLabel 
+                  title="Mortgage Balance Over Time"
+                  data={chartData}
+                />
+              </div>
             </section>
             <Separator className="my-4" />
             {/* Accelerated payoff graph */}
             <section className="mt-6">
               <h3 className="font-semibold text-lg mb-2">Accelerated Mortgage Payoff Timeline</h3>
               <p className="mb-4 text-muted-foreground text-sm">This chart shows how your mortgage balance decreases more quickly when you make extra payments, allowing you to pay off your mortgage sooner and save on interest.</p>
-              <ChartBarLabel 
-                title="Accelerated Mortgage Payoff (with Extra Payments)"
-                data={acceleratedChartData}
-                barColor="var(--color-brand-third)"
-              />
+              <div className="overflow-x-auto">
+                <ChartBarLabel 
+                  title="Accelerated Mortgage Payoff (with Extra Payments)"
+                  data={acceleratedChartData}
+                  barColor="var(--color-brand-third)"
+                />
+              </div>
             </section>
             {/* Explanation of accelerated payoff */}
             <section className="mt-4">
               <div className="bg-muted p-4 rounded-lg">
                 <h3 className="font-semibold text-lg mb-2">How Extra Payments Save You Money</h3>
-                <p>
+                <p className="text-sm md:text-base">
                   By making extra payments—either recurring or as a one-time lump sum—you reduce your mortgage principal faster. This means less interest accrues over time, since interest is calculated on a lower balance each month. As a result, you pay off your mortgage sooner and save significantly on total interest costs. The accelerated payoff chart above shows how your balance drops more quickly and your loan is paid off earlier compared to the standard schedule. The more you pay extra, and the earlier you start, the greater your savings and the faster you become mortgage-free.
                 </p>
               </div>
             </section>
           </section>
         </div>
-        <div className="w-full relative">
-          <div className="sticky top-12">
+        <div className="w-full relative order-1 lg:order-2">
+          <div className="sticky top-4 md:top-12">
               <Card>
                 <CardHeader className="pb-2">
                   <div className="text-muted-foreground text-base font-medium mb-1">Mortgage Payment</div>
                   <div className="flex items-end space-x-2">
-                    <span className="text-5xl font-extrabold text-brand-primary leading-none">
+                    <span className="text-3xl md:text-5xl font-extrabold text-brand-primary leading-none">
                       {(() => {
                         const payment = calculatePayment();
                         if (typeof payment === "string" && payment.startsWith("$") ) {
@@ -671,16 +669,15 @@ function MortgageCalculator() {
                         return payment;
                       })()}
                     </span>
-                    <span className="text-2xl font-bold text-brand-primary leading-none mb-1">
+                    <span className="text-lg md:text-2xl font-bold text-brand-primary leading-none mb-1">
                       {paymentPeriodLabel(state.paymentFrequency)}
                     </span>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <Tabs defaultValue="payment">
-                    <TabsList>
+                    <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger value="payment">Payment</TabsTrigger>
-                      {/* <TabsTrigger value="term">Term</TabsTrigger> */}
                       <TabsTrigger value="total">Total</TabsTrigger>
                     </TabsList>
                     <TabsContent value="payment">
@@ -694,16 +691,18 @@ function MortgageCalculator() {
                       />
                     </TabsContent>
                     <TabsContent value="total">
-                      <ChartPieLabel 
-                        title="Breakdown"
-                        data={pieChartData}
-                      />
+                      <div className="overflow-x-auto">
+                        <ChartPieLabel 
+                          title="Breakdown"
+                          data={pieChartData}
+                        />
+                      </div>
                     </TabsContent>
                   </Tabs>
                 </CardContent>
               </Card>
           <div className="mt-2 flex justify-end">
-            <Link href="https://www.realty-ai.com" className="hover:text-blue-500">
+            <Link href="https://www.realty-ai.com" className="hover:text-blue-500 text-sm">
               <p>Powered By Realty AI</p>
             </Link>
           </div>
@@ -714,5 +713,4 @@ function MortgageCalculator() {
   );
 }
 
-export default MortgageCalculator;
-// ... existing code ... 
+export default MortgageCalculator; 
