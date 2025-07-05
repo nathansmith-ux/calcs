@@ -129,7 +129,7 @@ function CashflowCalculator() {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 pt-8 md:pt-20">
         {/* Left: Inputs and Explanations */}
-        <div className="w-full order-2 lg:order-1">
+        <div className="w-full order-1 lg:order-1">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 space-y-2 sm:space-y-0">
             <h1 className="text-3xl md:text-4xl font-bold text-brand-primary">Cashflow Calculator</h1>
             <div className="flex items-center gap-2">
@@ -272,7 +272,7 @@ function CashflowCalculator() {
           </div>
         </div>
         {/* Right: Sticky Results Card */}
-        <div className="w-full relative order-1 lg:order-2">
+        <div className="w-full relative order-2 lg:order-2">
           <div className="sticky top-4 md:top-12">
             <Card>
               <CardHeader className="pb-2">
