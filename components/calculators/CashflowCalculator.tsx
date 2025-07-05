@@ -152,7 +152,7 @@ function CashflowCalculator() {
             </div>
           </div>
           <p className="mb-4 text-sm md:text-base">
-            Enter your property's income and expenses below. Each item can have its own time period (Monthly, Yearly, or Annual). 
+            Enter your property&apos;s income and expenses below. Each item can have its own time period (Monthly, Yearly, or Annual). 
             All calculations are converted to monthly for accurate cashflow analysis, then displayed in your selected view.
           </p>
           <div className="mb-6">
@@ -262,9 +262,9 @@ function CashflowCalculator() {
           <div className="mt-4 bg-muted p-4 rounded-lg">
             <h3 className="font-semibold text-base mb-2">How to Use</h3>
             <ul className="list-disc pl-5 text-sm space-y-1">
-              <li>Enter your property's actual income and expenses in the predefined fields.</li>
+              <li>Enter your property&apos;s actual income and expenses in the predefined fields.</li>
               <li>Each field can have its own time period (Monthly, Yearly, or Annual).</li>
-              <li>Use the "View" dropdown to switch between Monthly, Quarterly, and Yearly summaries.</li>
+              <li>Use the &quot;View&quot; dropdown to switch between Monthly, Quarterly, and Yearly summaries.</li>
               <li>All amounts are automatically converted to monthly for accurate cashflow analysis.</li>
               <li>See your total income, expenses, and net cashflow summary on the right.</li>
               <li>This calculator is designed for real estate investors to analyze property cashflow.</li>

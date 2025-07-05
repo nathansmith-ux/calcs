@@ -294,7 +294,7 @@ function BudgetCalculator() {
             <h3 className="font-semibold text-base mb-2">How to Use</h3>
             <ul className="list-disc pl-5 text-sm space-y-1">
               <li>Each income and expense item can have its own time period (Monthly, Yearly, or Annual).</li>
-              <li>Use the "View" dropdown to switch between Monthly, Quarterly, and Yearly summaries.</li>
+              <li>Use the &quot;View&quot; dropdown to switch between Monthly, Quarterly, and Yearly summaries.</li>
               <li>Add as many income and expense rows as you need.</li>
               <li>Enter the amount and select the appropriate time period for each item.</li>
               <li>All amounts are automatically converted to monthly for accurate cashflow analysis.</li>

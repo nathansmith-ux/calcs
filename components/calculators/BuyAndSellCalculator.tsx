@@ -552,7 +552,7 @@ function BuyAndSellCalculator() {
                   <li><strong>Down Payment:</strong> Either your net proceeds from the sale or a custom amount.</li>
                   <li><strong>Closing Costs:</strong> Legal and other costs to complete the purchase.</li>
                   <li><strong>Land Transfer Tax:</strong> Automatically calculated based on Ontario rates and purchase price.</li>
-                  <li><strong>Halton Region:</strong> Check if property is in Halton (avoids Toronto's double land transfer tax).</li>
+                  <li><strong>Halton Region:</strong> Check if property is in Halton (avoids Toronto&apos;s double land transfer tax).</li>
                   <li><strong>First-time Buyer:</strong> Check if eligible for up to $4,000 land transfer tax rebate.</li>
                 </ul>
               </div>

@@ -172,10 +172,6 @@ function MortgageCalculator() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleSetCondo = () => {
-    dispatch({ type: 'SET_IS_CONDO', payload: !state.isCondo });
-  }
-
   // Helper to get payment period label
   const paymentPeriodLabel = (freq: string) => {
     switch (freq || 'monthly') {
@@ -234,7 +230,7 @@ function MortgageCalculator() {
       case "thirtyYear": years = 30; break;
     }
     if (!principal || !years) return '-';
-    let freq = state.paymentFrequency || 'monthly';
+    const freq = state.paymentFrequency || 'monthly';
     let periodsPerYear = 12;
     if (freq === 'biweekly') periodsPerYear = 26;
     if (freq === 'weekly') periodsPerYear = 52;
@@ -319,12 +315,6 @@ function MortgageCalculator() {
     }
     if (!principal || !rate || !years) return [];
 
-    // Payment frequency
-    let freq = state.paymentFrequency || 'monthly';
-    let periodsPerYear = 12;
-    if (freq === 'biweekly') periodsPerYear = 26;
-    if (freq === 'weekly') periodsPerYear = 52;
-
     // Recurring extra payment
     const recurringAmount = Number(state.extraRecurringPayment.amount) || 0;
     const recurringFreq = state.extraRecurringPayment.frequency;
@@ -346,7 +336,7 @@ function MortgageCalculator() {
 
     // Accelerated payoff simulation
     let balance = principal;
-    let data = [];
+    const data = [];
     let year = 1;
     let month = 1;
     let totalMonths = 0;
@@ -395,7 +385,7 @@ function MortgageCalculator() {
           <h1 className="text-3xl md:text-4xl font-bold text-brand-primary">
             Mortgage Calculator
           </h1>
-          <p className="mt-3 text-sm md:text-base">Plan your mortgage with precision using Team Logue's mortgage calculators. Our calculators helps you estimate mortgage payments and potential savings.</p>
+          <p className="mt-3 text-sm md:text-base">Plan your mortgage with precision using Team Logue&apos;s mortgage calculators. Our calculators helps you estimate mortgage payments and potential savings.</p>
           <section className="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6 my-6 lg:my-12">
             <div className="md:col-span-4">
               <div>
