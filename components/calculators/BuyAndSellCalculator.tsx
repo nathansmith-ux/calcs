@@ -302,78 +302,160 @@ function BuyAndSellCalculator() {
                     }}
                   />
                 </div>
-                <div>
-                  <Label className={state.teamLogueProvides ? "line-through text-muted-foreground" : ""}>Staging Costs</Label>
-                  <Input
-                    className={`mt-2 ${state.teamLogueProvides ? "line-through text-muted-foreground opacity-50" : ""}`}
-                    type="text"
-                    placeholder="$3,000"
-                    value={state.stagingCosts ? Number(state.stagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_STAGING_COSTS', payload: raw });
-                    }}
-                    disabled={state.teamLogueProvides}
-                  />
+                <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Staging Costs</Label>
+                  <div className="relative">
+                    <Input
+                      className={`mt-2 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      type="text"
+                      placeholder="$3,000"
+                      value={state.stagingCosts ? Number(state.stagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_STAGING_COSTS', payload: raw });
+                      }}
+                      disabled={state.teamLogueProvides}
+                    />
+                    {state.teamLogueProvides && (
+                      <div className="absolute inset-0 bg-brand-primary/5 border-2 border-brand-primary/20 rounded-md flex items-center justify-center">
+                        <span className="text-brand-primary font-semibold text-sm">✓ INCLUDED</span>
+                      </div>
+                    )}
+                  </div>
                   {state.teamLogueProvides && (
-                    <div className="mt-1 text-xs text-brand-fourth font-medium">✓ Included with Team Logue</div>
+                    <div className="mt-1 text-xs text-brand-fourth font-medium flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
+                      <span>Professional staging included</span>
+                    </div>
                   )}
                 </div>
-                <div>
-                  <Label className={state.teamLogueProvides ? "line-through text-muted-foreground" : ""}>Photography Costs</Label>
-                  <Input
-                    className={`mt-2 ${state.teamLogueProvides ? "line-through text-muted-foreground opacity-50" : ""}`}
-                    type="text"
-                    placeholder="$500"
-                    value={state.photographyCosts ? Number(state.photographyCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_PHOTOGRAPHY_COSTS', payload: raw });
-                    }}
-                    disabled={state.teamLogueProvides}
-                  />
+                <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Photography Costs</Label>
+                  <div className="relative">
+                    <Input
+                      className={`mt-2 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      type="text"
+                      placeholder="$500"
+                      value={state.photographyCosts ? Number(state.photographyCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_PHOTOGRAPHY_COSTS', payload: raw });
+                      }}
+                      disabled={state.teamLogueProvides}
+                    />
+                    {state.teamLogueProvides && (
+                      <div className="absolute inset-0 bg-brand-primary/5 border-2 border-brand-primary/20 rounded-md flex items-center justify-center">
+                        <span className="text-brand-primary font-semibold text-sm">✓ INCLUDED</span>
+                      </div>
+                    )}
+                  </div>
                   {state.teamLogueProvides && (
-                    <div className="mt-1 text-xs text-brand-fourth font-medium">✓ Included with Team Logue</div>
+                    <div className="mt-1 text-xs text-brand-fourth font-medium flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
+                      <span>Professional photography included</span>
+                    </div>
                   )}
                 </div>
-                <div>
-                  <Label className={state.teamLogueProvides ? "line-through text-muted-foreground" : ""}>Marketing Costs</Label>
-                  <Input
-                    className={`mt-2 ${state.teamLogueProvides ? "line-through text-muted-foreground opacity-50" : ""}`}
-                    type="text"
-                    placeholder="$1,000"
-                    value={state.marketingCosts ? Number(state.marketingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_MARKETING_COSTS', payload: raw });
-                    }}
-                    disabled={state.teamLogueProvides}
-                  />
+                <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Marketing Costs</Label>
+                  <div className="relative">
+                    <Input
+                      className={`mt-2 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      type="text"
+                      placeholder="$1,000"
+                      value={state.marketingCosts ? Number(state.marketingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_MARKETING_COSTS', payload: raw });
+                      }}
+                      disabled={state.teamLogueProvides}
+                    />
+                    {state.teamLogueProvides && (
+                      <div className="absolute inset-0 bg-brand-primary/5 border-2 border-brand-primary/20 rounded-md flex items-center justify-center">
+                        <span className="text-brand-primary font-semibold text-sm">✓ INCLUDED</span>
+                      </div>
+                    )}
+                  </div>
                   {state.teamLogueProvides && (
-                    <div className="mt-1 text-xs text-brand-fourth font-medium">✓ Included with Team Logue</div>
+                    <div className="mt-1 text-xs text-brand-fourth font-medium flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
+                      <span>Marketing & promotion included</span>
+                    </div>
                   )}
                 </div>
               </div>
               
-              {/* Team Logue Checkbox - Updated with brand colors */}
-              <div className="mt-8 mb-6 p-4 md:p-6 bg-gradient-to-r from-brand-fifth/20 to-brand-fourth/10 border-2 border-brand-fourth/30 rounded-xl shadow-md">
-                <div className="flex items-center space-x-4">
-                  <Checkbox
-                    id="team-logue-provides"
-                    checked={state.teamLogueProvides}
-                    onCheckedChange={(checked) => dispatch({ type: 'SET_TEAM_LOGUE_PROVIDES', payload: checked as boolean })}
-                    className="h-6 w-6 data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary"
-                  />
-                  <div className="flex flex-col">
-                    <Label htmlFor="team-logue-provides" className="text-lg font-bold text-brand-primary">
-                      Team Logue Services Included
-                    </Label>
-                    <span className="text-sm text-brand-fourth mt-1">
-                      Staging • Photography • Marketing
-                    </span>
-                    <span className="text-xs text-brand-fourth/80 mt-2">
-                      Check this box if Team Logue will provide these services (costs will be removed from calculations)
-                    </span>
+              {/* Team Logue Switch - Enhanced Visual Design */}
+              <div className={`mt-8 mb-6 p-6 md:p-8 rounded-2xl shadow-lg transition-all duration-300 ${
+                state.teamLogueProvides 
+                  ? 'bg-gradient-to-br from-brand-primary/10 via-brand-fourth/5 to-brand-fifth/15 border-2 border-brand-primary/40' 
+                  : 'bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200'
+              }`}>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className={`w-3 h-3 rounded-full ${state.teamLogueProvides ? 'bg-brand-primary animate-pulse' : 'bg-gray-400'}`}></div>
+                      <h3 className={`text-xl font-bold transition-colors duration-300 ${
+                        state.teamLogueProvides ? 'text-brand-primary' : 'text-gray-700'
+                      }`}>
+                        Team Logue Premium Services
+                      </h3>
+                    </div>
+                    
+                    <div className="space-y-2 mb-4">
+                      <div className={`flex items-center space-x-2 transition-all duration-300 ${
+                        state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
+                      }`}>
+                        <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
+                        <span className="text-sm font-medium text-gray-700">Professional Staging</span>
+                        {state.teamLogueProvides && (
+                          <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
+                            INCLUDED
+                          </span>
+                        )}
+                      </div>
+                      <div className={`flex items-center space-x-2 transition-all duration-300 ${
+                        state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
+                      }`}>
+                        <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
+                        <span className="text-sm font-medium text-gray-700">Professional Photography</span>
+                        {state.teamLogueProvides && (
+                          <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
+                            INCLUDED
+                          </span>
+                        )}
+                      </div>
+                      <div className={`flex items-center space-x-2 transition-all duration-300 ${
+                        state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
+                      }`}>
+                        <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
+                        <span className="text-sm font-medium text-gray-700">Marketing & Promotion</span>
+                        {state.teamLogueProvides && (
+                          <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
+                            INCLUDED
+                          </span>
+                        )}
+                      </div>
+                    </div>                    
+                    <p className={`text-xs transition-colors duration-300 ${
+                      state.teamLogueProvides ? 'text-brand-primary/80' : 'text-gray-500'
+                    }`}>
+                      {state.teamLogueProvides 
+                        ? "Premium services included at no additional cost. Professional staging, photography, and marketing to maximize your sale price."
+                        : "Toggle to include Team Logue's premium services in your calculations"
+                      }
+                    </p>
+                  </div>
+                  
+                  <div className="ml-4">
+                    <Switch
+                      id="team-logue-provides"
+                      checked={state.teamLogueProvides}
+                      onCheckedChange={(checked) => dispatch({ type: 'SET_TEAM_LOGUE_PROVIDES', payload: checked })}
+                      className={`data-[state=checked]:bg-brand-primary transition-all duration-300 ${
+                        state.teamLogueProvides ? 'scale-110' : 'scale-100'
+                      }`}
+                    />
                   </div>
                 </div>
               </div>
@@ -591,18 +673,58 @@ function BuyAndSellCalculator() {
                       <span>Other Costs</span>
                       <span>-${sell.other.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className={state.teamLogueProvides ? "line-through text-muted-foreground" : ""}>Staging Costs</span>
-                      <span className={state.teamLogueProvides ? "line-through text-muted-foreground" : ""}>-${sell.staging.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className={state.teamLogueProvides ? "line-through text-muted-foreground" : ""}>Photography Costs</span>
-                      <span className={state.teamLogueProvides ? "line-through text-muted-foreground" : ""}>-${sell.photography.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className={state.teamLogueProvides ? "line-through text-muted-foreground" : ""}>Marketing Costs</span>
-                      <span className={state.teamLogueProvides ? "line-through text-muted-foreground" : ""}>-${sell.marketing.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
-                    </div>
+                    {!state.teamLogueProvides && (
+                      <>
+                        <div className="flex justify-between">
+                          <span>Staging Costs</span>
+                          <span>-${sell.staging.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Photography Costs</span>
+                          <span>-${sell.photography.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Marketing Costs</span>
+                          <span>-${sell.marketing.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                        </div>
+                      </>
+                    )}
+                    {state.teamLogueProvides && (
+                      <div className="bg-brand-primary/10 border border-brand-primary/30 rounded-lg p-3 mb-2">
+                        <div className="flex items-center justify-between text-brand-primary font-semibold">
+                          <span className="flex items-center space-x-2">
+                            <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
+                            <span>Team Logue Services</span>
+                          </span>
+                          <span className="text-sm">INCLUDED</span>
+                        </div>
+                        <div className="text-xs text-brand-primary/80 mt-1 mb-2">
+                          Staging • Photography • Marketing
+                        </div>
+                        <div className="text-xs text-brand-primary/70 space-y-1 border-t border-brand-primary/20 pt-2">
+                          <div className="flex justify-between">
+                            <span>Staging Cost Saved:</span>
+                            <span className="font-medium">${Number(state.stagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Photography Cost Saved:</span>
+                            <span className="font-medium">${Number(state.photographyCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Marketing Cost Saved:</span>
+                            <span className="font-medium">${Number(state.marketingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between border-t border-brand-primary/20 pt-1">
+                            <span>HST Cost Saved:</span>
+                            <span className="font-medium">${((Number(state.stagingCosts) + Number(state.photographyCosts) + Number(state.marketingCosts)) * 0.13).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between font-semibold text-brand-primary">
+                            <span>Total Cost Saved:</span>
+                            <span>${(Number(state.stagingCosts) + Number(state.photographyCosts) + Number(state.marketingCosts) + (Number(state.stagingCosts) + Number(state.photographyCosts) + Number(state.marketingCosts)) * 0.13).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     <div className="flex justify-between">
                       <span>HST on Fees</span>
                       <span>-${sell.totalHST.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
