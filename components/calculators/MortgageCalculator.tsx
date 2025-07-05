@@ -531,6 +531,27 @@ function MortgageCalculator() {
           </section>
             <Separator className="my-4" />
             <section className="my-6 lg:my-12">
+            <div className="flex items-center">
+              <HandCoins strokeWidth={0.5} size={20}/>
+              <h2 className="ml-2 text-lg md:text-xl">Payments over Time</h2>
+            </div>
+            <div className="mt-3">
+              <p className="text-sm md:text-base">Your mortgage interest rate can either be Fixed for the term or Variable (which changes with the prime rate). The Rate Term is the contract length with a lender.</p>
+            </div>
+            <Separator className="my-4" />
+            <section className="mt-6">
+              <h3 className="font-semibold text-lg mb-2">Standard Mortgage Payoff Timeline</h3>
+              <p className="mb-4 text-muted-foreground text-sm">This chart shows your mortgage balance decreasing over time with your current payment schedule, without any extra payments.</p>
+              <div className="overflow-x-auto">
+                <ChartBarLabel 
+                  title="Mortgage Balance Over Time"
+                  data={chartData}
+                />
+              </div>
+            </section>
+          </section>
+            <Separator className="my-4" />
+            <section className="my-6 lg:my-12">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <HandCoins strokeWidth={0.5} size={20}/>
@@ -617,31 +638,6 @@ function MortgageCalculator() {
                     <li>Both types of extra payments reduce your mortgage balance more quickly, saving you money on interest and shortening your overall payoff period. Try different values to see how much you can save!</li>
                   </ul>
                 </div>
-              </>
-            )}
-          </section>
-            {state.showExtraPayments && (
-              <>
-                <Separator className="my-4" />
-                <section className="my-6 lg:my-12">
-                <div className="flex items-center">
-                  <HandCoins strokeWidth={0.5} size={20}/>
-                  <h2 className="ml-2 text-lg md:text-xl">Payments over Time</h2>
-                </div>
-                <div className="mt-3">
-                  <p className="text-sm md:text-base">Your mortgage interest rate can either be Fixed for the term or Variable (which changes with the prime rate). The Rate Term is the contract length with a lender.</p>
-                </div>
-                <Separator className="my-4" />
-                <section className="mt-6">
-                  <h3 className="font-semibold text-lg mb-2">Standard Mortgage Payoff Timeline</h3>
-                  <p className="mb-4 text-muted-foreground text-sm">This chart shows your mortgage balance decreasing over time with your current payment schedule, without any extra payments.</p>
-                  <div className="overflow-x-auto">
-                    <ChartBarLabel 
-                      title="Mortgage Balance Over Time"
-                      data={chartData}
-                    />
-                  </div>
-                </section>
                 <Separator className="my-4" />
                 {/* Accelerated payoff graph */}
                 <section className="mt-6">
@@ -664,9 +660,9 @@ function MortgageCalculator() {
                     </p>
                   </div>
                 </section>
-              </section>
               </>
             )}
+          </section>
         </div>
         <div className="w-full relative order-1 lg:order-2">
           <div className="sticky top-4 md:top-12">
