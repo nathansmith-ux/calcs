@@ -224,8 +224,8 @@ function BuyAndSellCalculator() {
 
           {state.mode === "sell" ? (
             <>
-              <h1 className="text-3xl md:text-4xl font-bold text-brand-primary mb-2">Sale Equity Calculator</h1>
-              <p className="mb-4 text-sm md:text-base">Estimate how much you will walk away with after selling your property.</p>
+              <h1 className="font-heading text-3xl md:text-4xl font-bold text-brand-primary mb-2">Sale Equity Calculator</h1>
+              <p className="font-body mb-4 text-sm md:text-base">Estimate how much you will walk away with after selling your property.</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 my-6 lg:my-12">
                 <div>
@@ -395,7 +395,7 @@ function BuyAndSellCalculator() {
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-3">
                       <div className={`w-3 h-3 rounded-full ${state.teamLogueProvides ? 'bg-brand-primary animate-pulse' : 'bg-gray-400'}`}></div>
-                      <h3 className={`text-xl font-bold transition-colors duration-300 ${
+                      <h3 className={`font-heading text-xl font-bold transition-colors duration-300 ${
                         state.teamLogueProvides ? 'text-brand-primary' : 'text-gray-700'
                       }`}>
                         Team Logue Premium Services
@@ -407,7 +407,7 @@ function BuyAndSellCalculator() {
                         state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
                       }`}>
                         <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
-                        <span className="text-sm font-medium text-gray-700">Professional Staging</span>
+                        <span className="font-body text-sm font-medium text-gray-700">Professional Staging</span>
                         {state.teamLogueProvides && (
                           <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
                             INCLUDED
@@ -418,7 +418,7 @@ function BuyAndSellCalculator() {
                         state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
                       }`}>
                         <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
-                        <span className="text-sm font-medium text-gray-700">Professional Photography</span>
+                        <span className="font-body text-sm font-medium text-gray-700">Professional Photography</span>
                         {state.teamLogueProvides && (
                           <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
                             INCLUDED
@@ -429,7 +429,7 @@ function BuyAndSellCalculator() {
                         state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
                       }`}>
                         <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
-                        <span className="text-sm font-medium text-gray-700">Marketing & Promotion</span>
+                        <span className="font-body text-sm font-medium text-gray-700">Marketing & Promotion</span>
                         {state.teamLogueProvides && (
                           <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
                             INCLUDED
@@ -437,7 +437,7 @@ function BuyAndSellCalculator() {
                         )}
                       </div>
                     </div>                    
-                    <p className={`text-xs transition-colors duration-300 ${
+                    <p className={`font-body text-xs transition-colors duration-300 ${
                       state.teamLogueProvides ? 'text-brand-primary/80' : 'text-gray-500'
                     }`}>
                       {state.teamLogueProvides 
@@ -462,7 +462,7 @@ function BuyAndSellCalculator() {
 
                             {/* Mode Toggle */}
                             <div className="mt-8 text-center">
-                <div className="text-sm text-gray-600 mb-3">Want to calculate buying costs instead?</div>
+                                            <div className="font-body text-sm text-gray-600 mb-3">Want to calculate buying costs instead?</div>
                 <div className="flex items-center justify-center">
                   <div className="bg-gray-100 p-1 rounded-lg flex items-center">
                     <button
@@ -497,8 +497,8 @@ function BuyAndSellCalculator() {
             </>
           ) : (
             <>
-              <h1 className="text-3xl md:text-4xl font-bold text-brand-primary mb-2">Buy Calculator</h1>
-              <p className="mb-4 text-sm md:text-base">Estimate your down payment, mortgage, and total cost when buying a property. You can use your net proceeds from the sale or enter a custom down payment.</p>
+              <h1 className="font-heading text-3xl md:text-4xl font-bold text-brand-primary mb-2">Buy Calculator</h1>
+              <p className="font-body mb-4 text-sm md:text-base">Estimate your down payment, mortgage, and total cost when buying a property. You can use your net proceeds from the sale or enter a custom down payment.</p>
               
               {/* Land Transfer Tax Section */}
               <div className="mb-6">
