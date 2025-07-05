@@ -28,6 +28,7 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import Link from "next/link";
 
 type PaymentTabDetailsProps = {
@@ -94,6 +95,7 @@ function MortgageCalculator() {
     paymentFrequency: string;
     rateTerm: string;
     amortization: string;
+    showExtraPayments: boolean;
     extraRecurringPayment: {
       amount: string;
       frequency: string;
@@ -113,6 +115,7 @@ function MortgageCalculator() {
     | { type: 'SET_PAYMENT_FREQUENCY'; payload: string }
     | { type: 'SET_RATE_TERM'; payload: string }
     | { type: 'SET_AMORTIZATION'; payload: string }
+    | { type: 'SET_SHOW_EXTRA_PAYMENTS'; payload: boolean }
     | { type: 'SET_EXTRA_RECURRING_PAYMENT_AMOUNT'; payload: string }
     | { type: 'SET_EXTRA_RECURRING_PAYMENT_FREQUENCY'; payload: string }
     | { type: 'SET_EXTRA_ONE_TIME_PAYMENT_AMOUNT'; payload: string }
@@ -128,6 +131,7 @@ function MortgageCalculator() {
     paymentFrequency: 'monthly',
     rateTerm: 'fiveYear',
     amortization: 'twentyFiveYear',
+    showExtraPayments: false,
     extraRecurringPayment: {
       amount: '',
       frequency: 'monthly',
@@ -157,6 +161,8 @@ function MortgageCalculator() {
         return { ...state, rateTerm: action.payload };
       case 'SET_AMORTIZATION':
         return { ...state, amortization: action.payload };
+      case 'SET_SHOW_EXTRA_PAYMENTS':
+        return { ...state, showExtraPayments: action.payload };
       case 'SET_EXTRA_RECURRING_PAYMENT_AMOUNT':
         return { ...state, extraRecurringPayment: { ...state.extraRecurringPayment, amount: action.payload } };
       case 'SET_EXTRA_RECURRING_PAYMENT_FREQUENCY':
@@ -525,124 +531,142 @@ function MortgageCalculator() {
           </section>
             <Separator className="my-4" />
             <section className="my-6 lg:my-12">
-            <div className="flex items-center">
-              <HandCoins strokeWidth={0.5} size={20}/>
-              <h2 className="ml-2 text-lg md:text-xl">Pay Off Mortgage Faster</h2>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <HandCoins strokeWidth={0.5} size={20}/>
+                <h2 className="ml-2 text-lg md:text-xl">Pay Off Mortgage Faster</h2>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="extra-payments-switch" className="text-sm">Show Extra Payment Options</Label>
+                <Switch
+                  id="extra-payments-switch"
+                  checked={state.showExtraPayments}
+                  onCheckedChange={(checked) => dispatch({ type: 'SET_SHOW_EXTRA_PAYMENTS', payload: checked })}
+                />
+              </div>
             </div>
             <div className="mt-3">
               <p className="text-sm md:text-base">Accelerate your mortgage payoff by making extra payments. You can add recurring extra payments or a one-time lump sum payment.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <div>
-                <Label>Recurring Extra Payment</Label>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-1">
-                  <Input
-                    type="text"
-                    placeholder="$100"
-                    value={state.extraRecurringPayment.amount ? Number(state.extraRecurringPayment.amount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_EXTRA_RECURRING_PAYMENT_AMOUNT', payload: raw });
-                    }}
-                    className="w-full sm:w-24"
-                  />
-                  <Select
-                    value={state.extraRecurringPayment.frequency}
-                    onValueChange={val => dispatch({ type: 'SET_EXTRA_RECURRING_PAYMENT_FREQUENCY', payload: val })}
-                  >
-                    <SelectTrigger className="w-full sm:w-32 mt-2">
-                      <SelectValue placeholder="Frequency" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Frequency</SelectLabel>
-                        <SelectItem value="monthly">Monthly</SelectItem>
-                        <SelectItem value="biweekly">Bi-Weekly</SelectItem>
-                        <SelectItem value="weekly">Weekly</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+            {state.showExtraPayments && (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <Label>Recurring Extra Payment</Label>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-1">
+                      <Input
+                        type="text"
+                        placeholder="$100"
+                        value={state.extraRecurringPayment.amount ? Number(state.extraRecurringPayment.amount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                        onChange={e => {
+                          const raw = e.target.value.replace(/[^\d.]/g, '');
+                          dispatch({ type: 'SET_EXTRA_RECURRING_PAYMENT_AMOUNT', payload: raw });
+                        }}
+                        className="w-full sm:w-24"
+                      />
+                      <Select
+                        value={state.extraRecurringPayment.frequency}
+                        onValueChange={val => dispatch({ type: 'SET_EXTRA_RECURRING_PAYMENT_FREQUENCY', payload: val })}
+                      >
+                        <SelectTrigger className="w-full sm:w-32 mt-2">
+                          <SelectValue placeholder="Frequency" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Frequency</SelectLabel>
+                            <SelectItem value="monthly">Monthly</SelectItem>
+                            <SelectItem value="biweekly">Bi-Weekly</SelectItem>
+                            <SelectItem value="weekly">Weekly</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div>
+                    <Label>One-Time Extra Payment</Label>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-1">
+                      <Input
+                        type="text"
+                        placeholder="$5000"
+                        value={state.extraOneTimePayment.amount ? Number(state.extraOneTimePayment.amount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                        onChange={e => {
+                          const raw = e.target.value.replace(/[^\d.]/g, '');
+                          dispatch({ type: 'SET_EXTRA_ONE_TIME_PAYMENT_AMOUNT', payload: raw });
+                        }}
+                        className="w-full sm:w-24"
+                      />
+                      <Input
+                        type="text"
+                        placeholder="Year (e.g. 3)"
+                        value={state.extraOneTimePayment.year}
+                        onChange={e => {
+                          const raw = e.target.value.replace(/[^\d]/g, '');
+                          dispatch({ type: 'SET_EXTRA_ONE_TIME_PAYMENT_YEAR', payload: raw });
+                        }}
+                        className="w-full sm:w-24"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <Label>One-Time Extra Payment</Label>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-1">
-                  <Input
-                    type="text"
-                    placeholder="$5000"
-                    value={state.extraOneTimePayment.amount ? Number(state.extraOneTimePayment.amount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_EXTRA_ONE_TIME_PAYMENT_AMOUNT', payload: raw });
-                    }}
-                    className="w-full sm:w-24"
-                  />
-                  <Input
-                    type="text"
-                    placeholder="Year (e.g. 3)"
-                    value={state.extraOneTimePayment.year}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d]/g, '');
-                      dispatch({ type: 'SET_EXTRA_ONE_TIME_PAYMENT_YEAR', payload: raw });
-                    }}
-                    className="w-full sm:w-24"
-                  />
+                {/* Explanation for additional payments */}
+                <div className="mt-4 bg-muted p-4 rounded-lg">
+                  <h3 className="font-semibold text-base mb-2">How to Use Additional Payments</h3>
+                  <ul className="list-disc pl-5 text-sm space-y-1">
+                    <li><strong>Recurring Extra Payment:</strong> Enter an amount (e.g., $100) and select how often you want to make this extra payment (monthly, bi-weekly, or weekly). This amount will be added to every regular payment, helping you pay down your principal faster.</li>
+                    <li><strong>One-Time Extra Payment:</strong> Enter a lump sum amount (e.g., $5,000) and specify the year (e.g., 3) when you plan to make this payment. This amount will be applied directly to your principal in the chosen year.</li>
+                    <li>Both types of extra payments reduce your mortgage balance more quickly, saving you money on interest and shortening your overall payoff period. Try different values to see how much you can save!</li>
+                  </ul>
                 </div>
-              </div>
-            </div>
-            {/* Explanation for additional payments */}
-            <div className="mt-4 bg-muted p-4 rounded-lg">
-              <h3 className="font-semibold text-base mb-2">How to Use Additional Payments</h3>
-              <ul className="list-disc pl-5 text-sm space-y-1">
-                <li><strong>Recurring Extra Payment:</strong> Enter an amount (e.g., $100) and select how often you want to make this extra payment (monthly, bi-weekly, or weekly). This amount will be added to every regular payment, helping you pay down your principal faster.</li>
-                <li><strong>One-Time Extra Payment:</strong> Enter a lump sum amount (e.g., $5,000) and specify the year (e.g., 3) when you plan to make this payment. This amount will be applied directly to your principal in the chosen year.</li>
-                <li>Both types of extra payments reduce your mortgage balance more quickly, saving you money on interest and shortening your overall payoff period. Try different values to see how much you can save!</li>
-              </ul>
-            </div>
+              </>
+            )}
           </section>
-            <Separator className="my-4" />
-            <section className="my-6 lg:my-12">
-            <div className="flex items-center">
-              <HandCoins strokeWidth={0.5} size={20}/>
-              <h2 className="ml-2 text-lg md:text-xl">Payments over Time</h2>
-            </div>
-            <div className="mt-3">
-              <p className="text-sm md:text-base">Your mortgage interest rate can either be Fixed for the term or Variable (which changes with the prime rate). The Rate Term is the contract length with a lender.</p>
-            </div>
-            <Separator className="my-4" />
-            <section className="mt-6">
-              <h3 className="font-semibold text-lg mb-2">Standard Mortgage Payoff Timeline</h3>
-              <p className="mb-4 text-muted-foreground text-sm">This chart shows your mortgage balance decreasing over time with your current payment schedule, without any extra payments.</p>
-              <div className="overflow-x-auto">
-                <ChartBarLabel 
-                  title="Mortgage Balance Over Time"
-                  data={chartData}
-                />
-              </div>
-            </section>
-            <Separator className="my-4" />
-            {/* Accelerated payoff graph */}
-            <section className="mt-6">
-              <h3 className="font-semibold text-lg mb-2">Accelerated Mortgage Payoff Timeline</h3>
-              <p className="mb-4 text-muted-foreground text-sm">This chart shows how your mortgage balance decreases more quickly when you make extra payments, allowing you to pay off your mortgage sooner and save on interest.</p>
-              <div className="overflow-x-auto">
-                <ChartBarLabel 
-                  title="Accelerated Mortgage Payoff (with Extra Payments)"
-                  data={acceleratedChartData}
-                  barColor="var(--color-brand-third)"
-                />
-              </div>
-            </section>
-            {/* Explanation of accelerated payoff */}
-            <section className="mt-4">
-              <div className="bg-muted p-4 rounded-lg">
-                <h3 className="font-semibold text-lg mb-2">How Extra Payments Save You Money</h3>
-                <p className="text-sm md:text-base">
-                  By making extra payments—either recurring or as a one-time lump sum—you reduce your mortgage principal faster. This means less interest accrues over time, since interest is calculated on a lower balance each month. As a result, you pay off your mortgage sooner and save significantly on total interest costs. The accelerated payoff chart above shows how your balance drops more quickly and your loan is paid off earlier compared to the standard schedule. The more you pay extra, and the earlier you start, the greater your savings and the faster you become mortgage-free.
-                </p>
-              </div>
-            </section>
-          </section>
+            {state.showExtraPayments && (
+              <>
+                <Separator className="my-4" />
+                <section className="my-6 lg:my-12">
+                <div className="flex items-center">
+                  <HandCoins strokeWidth={0.5} size={20}/>
+                  <h2 className="ml-2 text-lg md:text-xl">Payments over Time</h2>
+                </div>
+                <div className="mt-3">
+                  <p className="text-sm md:text-base">Your mortgage interest rate can either be Fixed for the term or Variable (which changes with the prime rate). The Rate Term is the contract length with a lender.</p>
+                </div>
+                <Separator className="my-4" />
+                <section className="mt-6">
+                  <h3 className="font-semibold text-lg mb-2">Standard Mortgage Payoff Timeline</h3>
+                  <p className="mb-4 text-muted-foreground text-sm">This chart shows your mortgage balance decreasing over time with your current payment schedule, without any extra payments.</p>
+                  <div className="overflow-x-auto">
+                    <ChartBarLabel 
+                      title="Mortgage Balance Over Time"
+                      data={chartData}
+                    />
+                  </div>
+                </section>
+                <Separator className="my-4" />
+                {/* Accelerated payoff graph */}
+                <section className="mt-6">
+                  <h3 className="font-semibold text-lg mb-2">Accelerated Mortgage Payoff Timeline</h3>
+                  <p className="mb-4 text-muted-foreground text-sm">This chart shows how your mortgage balance decreases more quickly when you make extra payments, allowing you to pay off your mortgage sooner and save on interest.</p>
+                  <div className="overflow-x-auto">
+                    <ChartBarLabel 
+                      title="Accelerated Mortgage Payoff (with Extra Payments)"
+                      data={acceleratedChartData}
+                      barColor="var(--color-brand-third)"
+                    />
+                  </div>
+                </section>
+                {/* Explanation of accelerated payoff */}
+                <section className="mt-4">
+                  <div className="bg-muted p-4 rounded-lg">
+                    <h3 className="font-semibold text-lg mb-2">How Extra Payments Save You Money</h3>
+                    <p className="text-sm md:text-base">
+                      By making extra payments—either recurring or as a one-time lump sum—you reduce your mortgage principal faster. This means less interest accrues over time, since interest is calculated on a lower balance each month. As a result, you pay off your mortgage sooner and save significantly on total interest costs. The accelerated payoff chart above shows how your balance drops more quickly and your loan is paid off earlier compared to the standard schedule. The more you pay extra, and the earlier you start, the greater your savings and the faster you become mortgage-free.
+                    </p>
+                  </div>
+                </section>
+              </section>
+              </>
+            )}
         </div>
         <div className="w-full relative order-1 lg:order-2">
           <div className="sticky top-4 md:top-12">
