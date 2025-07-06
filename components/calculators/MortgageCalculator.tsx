@@ -571,7 +571,7 @@ function MortgageCalculator() {
                 <HandCoins strokeWidth={0.5} size={20}/>
                 <h2 className="ml-2 text-lg md:text-xl">Pay Off Mortgage Faster</h2>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="hidden md:flex items-center space-x-2">
                 <Label htmlFor="extra-payments-switch" className="text-sm">Show Extra Payment Options</Label>
                 <Switch
                   id="extra-payments-switch"
@@ -582,6 +582,16 @@ function MortgageCalculator() {
             </div>
             <div className="mt-3">
               <p className="text-sm md:text-base">Accelerate your mortgage payoff by making extra payments. You can add recurring extra payments or a one-time lump sum payment.</p>
+            </div>
+            <div className="md:hidden mt-4">
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="extra-payments-switch-mobile" className="text-sm">Show Extra Payment Options</Label>
+                <Switch
+                  id="extra-payments-switch-mobile"
+                  checked={state.showExtraPayments}
+                  onCheckedChange={(checked) => dispatch({ type: 'SET_SHOW_EXTRA_PAYMENTS', payload: checked })}
+                />
+              </div>
             </div>
             {state.showExtraPayments && (
               <>
