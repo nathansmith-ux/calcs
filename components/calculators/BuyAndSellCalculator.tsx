@@ -230,16 +230,19 @@ function BuyAndSellCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 my-6 lg:my-12">
                 <div>
                   <Label>Sale Price</Label>
-                  <Input
-                    className="mt-2"
-                    type="text"
-                    placeholder="$900,000"
-                    value={state.sellPrice ? Number(state.sellPrice).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_SELL_PRICE', payload: raw });
-                    }}
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                    <Input
+                      className="mt-2 pl-6"
+                      type="text"
+                      placeholder="900,000"
+                      value={state.sellPrice ? Number(state.sellPrice).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_SELL_PRICE', payload: raw });
+                      }}
+                    />
+                  </div>
                   <div className="mt-2">
                     <Slider
                       value={[Number(state.sellPrice) || 0]}
@@ -252,63 +255,76 @@ function BuyAndSellCalculator() {
                 </div>
                 <div>
                   <Label>Mortgage Balance</Label>
-                  <Input
-                    className="mt-2"
-                    type="text"
-                    placeholder="$500,000"
-                    value={state.mortgageBalance ? Number(state.mortgageBalance).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_MORTGAGE_BALANCE', payload: raw });
-                    }}
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                    <Input
+                      className="mt-2 pl-6"
+                      type="text"
+                      placeholder="500,000"
+                      value={state.mortgageBalance ? Number(state.mortgageBalance).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_MORTGAGE_BALANCE', payload: raw });
+                      }}
+                    />
+                  </div>
                 </div>
                 <div>
                   <Label>Realtor Fee (%)</Label>
-                  <Input
-                    className="mt-2"
-                    type="text"
-                    placeholder="5%"
-                    value={state.realtorFeePercent}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_REALTOR_FEE_PERCENT', payload: raw });
-                    }}
-                  />
+                  <div className="relative">
+                    <Input
+                      className="mt-2 pr-8"
+                      type="text"
+                      placeholder="5"
+                      value={state.realtorFeePercent}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_REALTOR_FEE_PERCENT', payload: raw });
+                      }}
+                    />
+                    <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">%</span>
+                  </div>
                 </div>
                 <div>
                   <Label>Legal Fees</Label>
-                  <Input
-                    className="mt-2"
-                    type="text"
-                    placeholder="$1,500"
-                    value={state.legalFees ? Number(state.legalFees).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_LEGAL_FEES', payload: raw });
-                    }}
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                    <Input
+                      className="mt-2 pl-6"
+                      type="text"
+                      placeholder="1,500"
+                      value={state.legalFees ? Number(state.legalFees).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_LEGAL_FEES', payload: raw });
+                      }}
+                    />
+                  </div>
                 </div>
                 <div>
                   <Label>Other Costs</Label>
-                  <Input
-                    className="mt-2"
-                    type="text"
-                    placeholder="$2,000"
-                    value={state.otherCosts ? Number(state.otherCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                    onChange={e => {
-                      const raw = e.target.value.replace(/[^\d.]/g, '');
-                      dispatch({ type: 'SET_OTHER_COSTS', payload: raw });
-                    }}
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                    <Input
+                      className="mt-2 pl-6"
+                      type="text"
+                      placeholder="2,000"
+                      value={state.otherCosts ? Number(state.otherCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_OTHER_COSTS', payload: raw });
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
                   <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Staging Costs</Label>
                   <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
                     <Input
-                      className={`mt-2 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      className={`mt-2 pl-6 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
                       type="text"
-                      placeholder="$3,000"
+                      placeholder="3,000"
                       value={state.stagingCosts ? Number(state.stagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
                       onChange={e => {
                         const raw = e.target.value.replace(/[^\d.]/g, '');
@@ -332,10 +348,11 @@ function BuyAndSellCalculator() {
                 <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
                   <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Photography Costs</Label>
                   <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
                     <Input
-                      className={`mt-2 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      className={`mt-2 pl-6 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
                       type="text"
-                      placeholder="$500"
+                      placeholder="500"
                       value={state.photographyCosts ? Number(state.photographyCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
                       onChange={e => {
                         const raw = e.target.value.replace(/[^\d.]/g, '');
@@ -359,10 +376,11 @@ function BuyAndSellCalculator() {
                 <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
                   <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Marketing Costs</Label>
                   <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
                     <Input
-                      className={`mt-2 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      className={`mt-2 pl-6 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
                       type="text"
-                      placeholder="$1,000"
+                      placeholder="1,000"
                       value={state.marketingCosts ? Number(state.marketingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
                       onChange={e => {
                         const raw = e.target.value.replace(/[^\d.]/g, '');

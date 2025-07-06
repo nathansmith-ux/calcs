@@ -156,11 +156,11 @@ function CashflowCalculator() {
             All calculations are converted to monthly for accurate cashflow analysis, then displayed in your selected view.
           </p>
           <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">Income</h2>
+            <h2 className="text-sm md:text-lg font-medium mb-2">Income</h2>
             {incomeItems.map((item) => (
-              <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-2 space-y-2 sm:space-y-0">
+              <div key={item.id} className="grid grid-cols-12 sm:flex sm:flex-row items-start sm:items-center gap-2 mb-2">
                 <Input
-                  className="w-full sm:w-2/5"
+                  className="col-span-5 sm:w-2/5 text-sm sm:text-base"
                   type="text"
                   placeholder={item.name}
                   value={item.name}
@@ -171,48 +171,53 @@ function CashflowCalculator() {
                     })
                   }
                 />
-                <Input
-                  className="w-full sm:w-1/4"
-                  type="text"
-                  placeholder="$0"
-                  value={item.amount}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE_ITEM",
-                      payload: {
-                        id: item.id,
-                        amount: e.target.value.replace(/[^\d.]/g, ""),
-                      },
-                    })
-                  }
-                />
-                <Select
-                  value={item.timePeriod}
-                  onValueChange={(value: "monthly" | "yearly" | "annual") =>
-                    dispatch({
-                      type: "UPDATE_ITEM",
-                      payload: { id: item.id, timePeriod: value },
-                    })
-                  }
-                >
-                  <SelectTrigger className="w-full sm:w-28">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="monthly">Monthly</SelectItem>
-                    <SelectItem value="yearly">Yearly</SelectItem>
-                    <SelectItem value="annual">Annual</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="col-span-3 sm:w-1/4 relative">
+                  <span className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none text-sm">$</span>
+                  <Input
+                    className="pl-5 text-sm sm:text-base"
+                    type="text"
+                    placeholder="0"
+                    value={item.amount}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "UPDATE_ITEM",
+                        payload: {
+                          id: item.id,
+                          amount: e.target.value.replace(/[^\d.]/g, ""),
+                        },
+                      })
+                    }
+                  />
+                </div>
+                <div className="col-span-4 flex items-center gap-2">
+                  <Select
+                    value={item.timePeriod}
+                    onValueChange={(value: "monthly" | "yearly" | "annual") =>
+                      dispatch({
+                        type: "UPDATE_ITEM",
+                        payload: { id: item.id, timePeriod: value },
+                      })
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="monthly">Monthly</SelectItem>
+                      <SelectItem value="yearly">Yearly</SelectItem>
+                      <SelectItem value="annual">Annual</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             ))}
           </div>
           <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">Expenses</h2>
+            <h2 className="text-sm md:text-lg font-medium mb-2">Expenses</h2>
             {expenseItems.map((item) => (
-              <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-2 space-y-2 sm:space-y-0">
+              <div key={item.id} className="grid grid-cols-12 sm:flex sm:flex-row items-start sm:items-center gap-2 mb-2">
                 <Input
-                  className="w-full sm:w-2/5"
+                  className="col-span-5 sm:w-2/5 text-sm sm:text-base"
                   type="text"
                   placeholder={item.name}
                   value={item.name}
@@ -223,39 +228,44 @@ function CashflowCalculator() {
                     })
                   }
                 />
-                <Input
-                  className="w-full sm:w-1/4"
-                  type="text"
-                  placeholder="$0"
-                  value={item.amount}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE_ITEM",
-                      payload: {
-                        id: item.id,
-                        amount: e.target.value.replace(/[^\d.]/g, ""),
-                      },
-                    })
-                  }
-                />
-                <Select
-                  value={item.timePeriod}
-                  onValueChange={(value: "monthly" | "yearly" | "annual") =>
-                    dispatch({
-                      type: "UPDATE_ITEM",
-                      payload: { id: item.id, timePeriod: value },
-                    })
-                  }
-                >
-                  <SelectTrigger className="w-full sm:w-28">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="monthly">Monthly</SelectItem>
-                    <SelectItem value="yearly">Yearly</SelectItem>
-                    <SelectItem value="annual">Annual</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="col-span-3 sm:w-1/4 relative">
+                  <span className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none text-sm">$</span>
+                  <Input
+                    className="pl-5 text-sm sm:text-base"
+                    type="text"
+                    placeholder="0"
+                    value={item.amount}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "UPDATE_ITEM",
+                        payload: {
+                          id: item.id,
+                          amount: e.target.value.replace(/[^\d.]/g, ""),
+                        },
+                      })
+                    }
+                  />
+                </div>
+                <div className="col-span-4 flex items-center gap-2">
+                  <Select
+                    value={item.timePeriod}
+                    onValueChange={(value: "monthly" | "yearly" | "annual") =>
+                      dispatch({
+                        type: "UPDATE_ITEM",
+                        payload: { id: item.id, timePeriod: value },
+                      })
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="monthly">Monthly</SelectItem>
+                      <SelectItem value="yearly">Yearly</SelectItem>
+                      <SelectItem value="annual">Annual</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             ))}
           </div>

@@ -159,9 +159,9 @@ function BudgetCalculator() {
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-2">Income</h2>
             {state.items.filter((item) => item.type === "income").map((item) => (
-              <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-2 space-y-2 sm:space-y-0">
+              <div key={item.id} className="grid grid-cols-12 sm:flex sm:flex-row items-start sm:items-center gap-2 mb-2">
                 <Input
-                  className="w-full sm:w-2/5"
+                  className="col-span-5 sm:w-2/5 text-sm sm:text-base"
                   type="text"
                   placeholder="Income name"
                   value={item.name}
@@ -172,47 +172,54 @@ function BudgetCalculator() {
                     })
                   }
                 />
-                <Input
-                  className="w-full sm:w-1/4"
-                  type="text"
-                  placeholder="$0"
-                  value={item.amount}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE_ITEM",
-                      payload: {
-                        id: item.id,
-                        amount: e.target.value.replace(/[^\d.]/g, ""),
-                      },
-                    })
-                  }
-                />
-                <Select
-                  value={item.timePeriod}
-                  onValueChange={(value: "monthly" | "yearly" | "annual") =>
-                    dispatch({
-                      type: "UPDATE_ITEM",
-                      payload: { id: item.id, timePeriod: value },
-                    })
-                  }
-                >
-                  <SelectTrigger className="w-full sm:w-28">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="monthly">Monthly</SelectItem>
-                    <SelectItem value="yearly">Yearly</SelectItem>
-                    <SelectItem value="annual">Annual</SelectItem>
-                  </SelectContent>
-                </Select>
-                <button
-                  type="button"
-                  className="text-lg px-2 py-1 rounded hover:bg-gray-100 self-start sm:self-center"
-                  aria-label="Remove income"
-                  onClick={() => dispatch({ type: "REMOVE_ITEM", payload: { id: item.id } })}
-                >
-                  ×
-                </button>
+                <div className="col-span-3 sm:w-1/4 relative">
+                  <span className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none text-sm">$</span>
+                  <Input
+                    className="pl-5 text-sm sm:text-base"
+                    type="text"
+                    placeholder="0"
+                    value={item.amount}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "UPDATE_ITEM",
+                        payload: {
+                          id: item.id,
+                          amount: e.target.value.replace(/[^\d.]/g, ""),
+                        },
+                      })
+                    }
+                  />
+                </div>
+                <div className="col-span-3 flex items-center gap-2">
+                  <Select
+                    value={item.timePeriod}
+                    onValueChange={(value: "monthly" | "yearly" | "annual") =>
+                      dispatch({
+                        type: "UPDATE_ITEM",
+                        payload: { id: item.id, timePeriod: value },
+                      })
+                    }
+                  >
+                    <SelectTrigger className="w-full sm:w-28">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="monthly">Monthly</SelectItem>
+                      <SelectItem value="yearly">Yearly</SelectItem>
+                      <SelectItem value="annual">Annual</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="col-span-1 flex justify-center items-center">
+                  <button
+                    type="button"
+                    className="text-xl px-3 py-2 rounded hover:bg-gray-100 sm:text-lg sm:px-2 sm:py-1"
+                    aria-label="Remove income"
+                    onClick={() => dispatch({ type: "REMOVE_ITEM", payload: { id: item.id } })}
+                  >
+                    ×
+                  </button>
+                </div>
               </div>
             ))}
             <button
@@ -226,9 +233,9 @@ function BudgetCalculator() {
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-2">Expenses</h2>
             {state.items.filter((item) => item.type === "expense").map((item) => (
-              <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mb-2 space-y-2 sm:space-y-0">
+              <div key={item.id} className="grid grid-cols-12 sm:flex sm:flex-row items-start sm:items-center gap-2 mb-2">
                 <Input
-                  className="w-full sm:w-2/5"
+                  className="col-span-5 sm:w-2/5"
                   type="text"
                   placeholder="Expense name"
                   value={item.name}
@@ -239,47 +246,54 @@ function BudgetCalculator() {
                     })
                   }
                 />
-                <Input
-                  className="w-full sm:w-1/4"
-                  type="text"
-                  placeholder="$0"
-                  value={item.amount}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "UPDATE_ITEM",
-                      payload: {
-                        id: item.id,
-                        amount: e.target.value.replace(/[^\d.]/g, ""),
-                      },
-                    })
-                  }
-                />
-                <Select
-                  value={item.timePeriod}
-                  onValueChange={(value: "monthly" | "yearly" | "annual") =>
-                    dispatch({
-                      type: "UPDATE_ITEM",
-                      payload: { id: item.id, timePeriod: value },
-                    })
-                  }
-                >
-                  <SelectTrigger className="w-full sm:w-28">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="monthly">Monthly</SelectItem>
-                    <SelectItem value="yearly">Yearly</SelectItem>
-                    <SelectItem value="annual">Annual</SelectItem>
-                  </SelectContent>
-                </Select>
-                <button
-                  type="button"
-                  className="text-lg px-2 py-1 rounded hover:bg-gray-100 self-start sm:self-center"
-                  aria-label="Remove expense"
-                  onClick={() => dispatch({ type: "REMOVE_ITEM", payload: { id: item.id } })}
-                >
-                  ×
-                </button>
+                <div className="col-span-3 sm:w-1/4 relative">
+                  <span className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none text-sm">$</span>
+                  <Input
+                    className="pl-5 text-sm sm:text-base"
+                    type="text"
+                    placeholder="0"
+                    value={item.amount}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "UPDATE_ITEM",
+                        payload: {
+                          id: item.id,
+                          amount: e.target.value.replace(/[^\d.]/g, ""),
+                        },
+                      })
+                    }
+                  />
+                </div>
+                <div className="col-span-3 flex items-center gap-2">
+                  <Select
+                    value={item.timePeriod}
+                    onValueChange={(value: "monthly" | "yearly" | "annual") =>
+                      dispatch({
+                        type: "UPDATE_ITEM",
+                        payload: { id: item.id, timePeriod: value },
+                      })
+                    }
+                  >
+                    <SelectTrigger className="w-full sm:w-28">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="monthly">Monthly</SelectItem>
+                      <SelectItem value="yearly">Yearly</SelectItem>
+                      <SelectItem value="annual">Annual</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="col-span-1 flex justify-center items-center">
+                  <button
+                    type="button"
+                    className="text-xl px-3 py-2 rounded hover:bg-gray-100 sm:text-lg sm:px-2 sm:py-1"
+                    aria-label="Remove expense"
+                    onClick={() => dispatch({ type: "REMOVE_ITEM", payload: { id: item.id } })}
+                  >
+                    ×
+                  </button>
+                </div>
               </div>
             ))}
             <button

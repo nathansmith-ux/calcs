@@ -396,16 +396,21 @@ function MortgageCalculator() {
             <div className="md:col-span-4">
               <div>
               <Label>Mortgage Amount</Label>
-              <Input
-                type="text"
-                className="mt-2"
-                placeholder="Mortgage Amount"
-                value={state.mortgageAmount ? Number(state.mortgageAmount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                onChange={e => {
-                  const raw = e.target.value.replace(/[^\d.]/g, '');
-                  dispatch({ type: 'SET_MORTGAGE_AMOUNT', payload: raw });
-                }}
-              />
+              <div className="relative mt-2">
+                <Input
+                  type="text"
+                  className="pl-6"
+                  placeholder="Mortgage Amount"
+                  value={state.mortgageAmount ? Number(state.mortgageAmount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                  onChange={e => {
+                    const raw = e.target.value.replace(/[^\d.]/g, '');
+                    dispatch({ type: 'SET_MORTGAGE_AMOUNT', payload: raw });
+                  }}
+                />
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                  $
+                </span>
+              </div>
               </div>
               <div className="mt-2">
                 <Slider
@@ -450,16 +455,25 @@ function MortgageCalculator() {
               <div className="md:col-span-2 flex items-center">
                 <div className="w-full">
                 <Label>Interest Rate</Label>
-                <Input
-                  type="text"
-                  placeholder="2.5%"
-                  className="mt-2"
-                  value={state.interestRate ? Number(state.interestRate).toLocaleString("en-US", { maximumFractionDigits: 2 }) : ''}
-                  onChange={e => {
-                    const raw = e.target.value.replace(/[^\d.]/g, '');
-                    dispatch({ type: 'SET_INTEREST_RATE', payload: raw });
-                  }}
-                />
+                <div className="relative mt-2">
+                  <Input
+                    type="text"
+                    placeholder="2.5"
+                    className="pr-8"
+                    value={state.interestRate}
+                    onChange={e => {
+                      const raw = e.target.value.replace(/[^\d.]/g, '');
+                      // Allow only one decimal point and limit to 2 decimal places
+                      const parts = raw.split('.');
+                      if (parts.length > 2) return; // More than one decimal point
+                      if (parts[1] && parts[1].length > 2) return; // More than 2 decimal places
+                      dispatch({ type: 'SET_INTEREST_RATE', payload: raw });
+                    }}
+                  />
+                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                    %
+                  </span>
+                </div>
                 </div>
               </div>
               <div className="md:col-span-1 flex items-center">
@@ -575,16 +589,21 @@ function MortgageCalculator() {
                   <div>
                     <Label>Recurring Extra Payment</Label>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-1">
-                      <Input
-                        type="text"
-                        placeholder="$100"
-                        value={state.extraRecurringPayment.amount ? Number(state.extraRecurringPayment.amount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                        onChange={e => {
-                          const raw = e.target.value.replace(/[^\d.]/g, '');
-                          dispatch({ type: 'SET_EXTRA_RECURRING_PAYMENT_AMOUNT', payload: raw });
-                        }}
-                        className="w-full sm:w-24"
-                      />
+                      <div className="relative w-full sm:w-24">
+                        <Input
+                          type="text"
+                          placeholder="100"
+                          value={state.extraRecurringPayment.amount ? Number(state.extraRecurringPayment.amount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                          onChange={e => {
+                            const raw = e.target.value.replace(/[^\d.]/g, '');
+                            dispatch({ type: 'SET_EXTRA_RECURRING_PAYMENT_AMOUNT', payload: raw });
+                          }}
+                          className="pl-6"
+                        />
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                          $
+                        </span>
+                      </div>
                       <Select
                         value={state.extraRecurringPayment.frequency}
                         onValueChange={val => dispatch({ type: 'SET_EXTRA_RECURRING_PAYMENT_FREQUENCY', payload: val })}
@@ -606,16 +625,21 @@ function MortgageCalculator() {
                   <div>
                     <Label>One-Time Extra Payment</Label>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-1">
-                      <Input
-                        type="text"
-                        placeholder="$5000"
-                        value={state.extraOneTimePayment.amount ? Number(state.extraOneTimePayment.amount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
-                        onChange={e => {
-                          const raw = e.target.value.replace(/[^\d.]/g, '');
-                          dispatch({ type: 'SET_EXTRA_ONE_TIME_PAYMENT_AMOUNT', payload: raw });
-                        }}
-                        className="w-full sm:w-24"
-                      />
+                      <div className="relative w-full sm:w-24">
+                        <Input
+                          type="text"
+                          placeholder="5000"
+                          value={state.extraOneTimePayment.amount ? Number(state.extraOneTimePayment.amount).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                          onChange={e => {
+                            const raw = e.target.value.replace(/[^\d.]/g, '');
+                            dispatch({ type: 'SET_EXTRA_ONE_TIME_PAYMENT_AMOUNT', payload: raw });
+                          }}
+                          className="pl-6"
+                        />
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                          $
+                        </span>
+                      </div>
                       <Input
                         type="text"
                         placeholder="Year (e.g. 3)"
