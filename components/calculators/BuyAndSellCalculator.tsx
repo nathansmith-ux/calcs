@@ -24,9 +24,13 @@ interface State {
   realtorFeePercent: string;
   legalFees: string;
   otherCosts: string;
-  stagingCosts: string;
-  photographyCosts: string;
+  traditionalStagingCosts: string;
+  virtualStagingCosts: string;
+  virtualRenovationCosts: string;
   marketingCosts: string;
+  videographyCosts: string;
+  photographyCosts: string;
+  iGuideFloorPlanCosts: string;
   teamLogueProvides: boolean;
   // Buy fields
   buyPrice: string;
@@ -45,9 +49,13 @@ type Action =
   | { type: 'SET_REALTOR_FEE_PERCENT'; payload: string }
   | { type: 'SET_LEGAL_FEES'; payload: string }
   | { type: 'SET_OTHER_COSTS'; payload: string }
-  | { type: 'SET_STAGING_COSTS'; payload: string }
-  | { type: 'SET_PHOTOGRAPHY_COSTS'; payload: string }
+  | { type: 'SET_TRADITIONAL_STAGING_COSTS'; payload: string }
+  | { type: 'SET_VIRTUAL_STAGING_COSTS'; payload: string }
+  | { type: 'SET_VIRTUAL_RENOVATION_COSTS'; payload: string }
   | { type: 'SET_MARKETING_COSTS'; payload: string }
+  | { type: 'SET_VIDEOGRAPHY_COSTS'; payload: string }
+  | { type: 'SET_PHOTOGRAPHY_COSTS'; payload: string }
+  | { type: 'SET_IGUIDE_FLOOR_PLAN_COSTS'; payload: string }
   | { type: 'SET_TEAM_LOGUE_PROVIDES'; payload: boolean }
   | { type: 'SET_BUY_PRICE'; payload: string }
   | { type: 'SET_DOWN_PAYMENT'; payload: string }
@@ -64,9 +72,13 @@ const initialState: State = {
   realtorFeePercent: "5",
   legalFees: "1500",
   otherCosts: "2000",
-  stagingCosts: "3000",
-  photographyCosts: "500",
+  traditionalStagingCosts: "3000",
+  virtualStagingCosts: "1500",
+  virtualRenovationCosts: "2000",
   marketingCosts: "1000",
+  videographyCosts: "800",
+  photographyCosts: "500",
+  iGuideFloorPlanCosts: "400",
   teamLogueProvides: false,
   buyPrice: "1000000",
   downPayment: "",
@@ -91,12 +103,20 @@ function reducer(state: State, action: Action): State {
       return { ...state, legalFees: action.payload };
     case 'SET_OTHER_COSTS':
       return { ...state, otherCosts: action.payload };
-    case 'SET_STAGING_COSTS':
-      return { ...state, stagingCosts: action.payload };
-    case 'SET_PHOTOGRAPHY_COSTS':
-      return { ...state, photographyCosts: action.payload };
+    case 'SET_TRADITIONAL_STAGING_COSTS':
+      return { ...state, traditionalStagingCosts: action.payload };
+    case 'SET_VIRTUAL_STAGING_COSTS':
+      return { ...state, virtualStagingCosts: action.payload };
+    case 'SET_VIRTUAL_RENOVATION_COSTS':
+      return { ...state, virtualRenovationCosts: action.payload };
     case 'SET_MARKETING_COSTS':
       return { ...state, marketingCosts: action.payload };
+    case 'SET_VIDEOGRAPHY_COSTS':
+      return { ...state, videographyCosts: action.payload };
+    case 'SET_PHOTOGRAPHY_COSTS':
+      return { ...state, photographyCosts: action.payload };
+    case 'SET_IGUIDE_FLOOR_PLAN_COSTS':
+      return { ...state, iGuideFloorPlanCosts: action.payload };
     case 'SET_TEAM_LOGUE_PROVIDES':
       return { ...state, teamLogueProvides: action.payload };
     case 'SET_BUY_PRICE':
@@ -126,22 +146,30 @@ function calculateSellNet(state: State) {
   const other = Number(state.otherCosts) || 0;
   
   // Additional costs
-  const staging = state.teamLogueProvides ? 0 : (Number(state.stagingCosts) || 0);
-  const photography = state.teamLogueProvides ? 0 : (Number(state.photographyCosts) || 0);
+  const traditionalStaging = state.teamLogueProvides ? 0 : (Number(state.traditionalStagingCosts) || 0);
+  const virtualStaging = state.teamLogueProvides ? 0 : (Number(state.virtualStagingCosts) || 0);
+  const virtualRenovation = state.teamLogueProvides ? 0 : (Number(state.virtualRenovationCosts) || 0);
   const marketing = state.teamLogueProvides ? 0 : (Number(state.marketingCosts) || 0);
+  const videography = state.teamLogueProvides ? 0 : (Number(state.videographyCosts) || 0);
+  const photography = state.teamLogueProvides ? 0 : (Number(state.photographyCosts) || 0);
+  const iGuideFloorPlan = state.teamLogueProvides ? 0 : (Number(state.iGuideFloorPlanCosts) || 0);
   
   // Calculate HST on fees (13% in Ontario)
   const hstRate = 0.13;
   const hstOnRealtorFee = realtorFee * hstRate;
   const hstOnLegalFees = legal * hstRate;
   const hstOnOtherCosts = other * hstRate;
-  const hstOnStaging = staging * hstRate;
-  const hstOnPhotography = photography * hstRate;
+  const hstOnTraditionalStaging = traditionalStaging * hstRate;
+  const hstOnVirtualStaging = virtualStaging * hstRate;
+  const hstOnVirtualRenovation = virtualRenovation * hstRate;
   const hstOnMarketing = marketing * hstRate;
+  const hstOnVideography = videography * hstRate;
+  const hstOnPhotography = photography * hstRate;
+  const hstOnIGuideFloorPlan = iGuideFloorPlan * hstRate;
   
-  const totalHST = hstOnRealtorFee + hstOnLegalFees + hstOnOtherCosts + hstOnStaging + hstOnPhotography + hstOnMarketing;
+  const totalHST = hstOnRealtorFee + hstOnLegalFees + hstOnOtherCosts + hstOnTraditionalStaging + hstOnVirtualStaging + hstOnVirtualRenovation + hstOnMarketing + hstOnVideography + hstOnPhotography + hstOnIGuideFloorPlan;
   
-  const net = price - mortgage - realtorFee - legal - other - staging - photography - marketing - totalHST;
+  const net = price - mortgage - realtorFee - legal - other - traditionalStaging - virtualStaging - virtualRenovation - marketing - videography - photography - iGuideFloorPlan - totalHST;
   
   return {
     price,
@@ -149,15 +177,23 @@ function calculateSellNet(state: State) {
     realtorFee,
     legal,
     other,
-    staging,
-    photography,
+    traditionalStaging,
+    virtualStaging,
+    virtualRenovation,
     marketing,
+    videography,
+    photography,
+    iGuideFloorPlan,
     hstOnRealtorFee,
     hstOnLegalFees,
     hstOnOtherCosts,
-    hstOnStaging,
-    hstOnPhotography,
+    hstOnTraditionalStaging,
+    hstOnVirtualStaging,
+    hstOnVirtualRenovation,
     hstOnMarketing,
+    hstOnVideography,
+    hstOnPhotography,
+    hstOnIGuideFloorPlan,
     totalHST,
     net: Math.max(net, 0)
   };
@@ -318,17 +354,17 @@ function BuyAndSellCalculator() {
                   </div>
                 </div>
                 <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
-                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Staging Costs</Label>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Traditional Staging</Label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
                     <Input
                       className={`mt-2 pl-6 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
                       type="text"
                       placeholder="3,000"
-                      value={state.stagingCosts ? Number(state.stagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      value={state.traditionalStagingCosts ? Number(state.traditionalStagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
                       onChange={e => {
                         const raw = e.target.value.replace(/[^\d.]/g, '');
-                        dispatch({ type: 'SET_STAGING_COSTS', payload: raw });
+                        dispatch({ type: 'SET_TRADITIONAL_STAGING_COSTS', payload: raw });
                       }}
                       disabled={state.teamLogueProvides}
                     />
@@ -341,12 +377,124 @@ function BuyAndSellCalculator() {
                   {state.teamLogueProvides && (
                     <div className="mt-1 text-xs text-brand-fourth font-medium flex items-center space-x-1">
                       <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
-                      <span>Professional staging included</span>
+                      <span>Traditional staging included</span>
                     </div>
                   )}
                 </div>
                 <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
-                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Photography Costs</Label>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Virtual Staging</Label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                    <Input
+                      className={`mt-2 pl-6 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      type="text"
+                      placeholder="1,500"
+                      value={state.virtualStagingCosts ? Number(state.virtualStagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_VIRTUAL_STAGING_COSTS', payload: raw });
+                      }}
+                      disabled={state.teamLogueProvides}
+                    />
+                    {state.teamLogueProvides && (
+                      <div className="absolute inset-0 bg-brand-primary/5 border-2 border-brand-primary/20 rounded-md flex items-center justify-center">
+                        <span className="text-brand-primary font-semibold text-sm">✓ INCLUDED</span>
+                      </div>
+                    )}
+                  </div>
+                  {state.teamLogueProvides && (
+                    <div className="mt-1 text-xs text-brand-fourth font-medium flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
+                      <span>Virtual staging included</span>
+                    </div>
+                  )}
+                </div>
+                <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Virtual Renovation</Label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                    <Input
+                      className={`mt-2 pl-6 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      type="text"
+                      placeholder="2,000"
+                      value={state.virtualRenovationCosts ? Number(state.virtualRenovationCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_VIRTUAL_RENOVATION_COSTS', payload: raw });
+                      }}
+                      disabled={state.teamLogueProvides}
+                    />
+                    {state.teamLogueProvides && (
+                      <div className="absolute inset-0 bg-brand-primary/5 border-2 border-brand-primary/20 rounded-md flex items-center justify-center">
+                        <span className="text-brand-primary font-semibold text-sm">✓ INCLUDED</span>
+                      </div>
+                    )}
+                  </div>
+                  {state.teamLogueProvides && (
+                    <div className="mt-1 text-xs text-brand-fourth font-medium flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
+                      <span>Virtual renovation included</span>
+                    </div>
+                  )}
+                </div>
+                <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Marketing</Label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                    <Input
+                      className={`mt-2 pl-6 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      type="text"
+                      placeholder="1,000"
+                      value={state.marketingCosts ? Number(state.marketingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_MARKETING_COSTS', payload: raw });
+                      }}
+                      disabled={state.teamLogueProvides}
+                    />
+                    {state.teamLogueProvides && (
+                      <div className="absolute inset-0 bg-brand-primary/5 border-2 border-brand-primary/20 rounded-md flex items-center justify-center">
+                        <span className="text-brand-primary font-semibold text-sm">✓ INCLUDED</span>
+                      </div>
+                    )}
+                  </div>
+                  {state.teamLogueProvides && (
+                    <div className="mt-1 text-xs text-brand-fourth font-medium flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
+                      <span>Marketing & promotion included</span>
+                    </div>
+                  )}
+                </div>
+                <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Videography</Label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                    <Input
+                      className={`mt-2 pl-6 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
+                      type="text"
+                      placeholder="800"
+                      value={state.videographyCosts ? Number(state.videographyCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      onChange={e => {
+                        const raw = e.target.value.replace(/[^\d.]/g, '');
+                        dispatch({ type: 'SET_VIDEOGRAPHY_COSTS', payload: raw });
+                      }}
+                      disabled={state.teamLogueProvides}
+                    />
+                    {state.teamLogueProvides && (
+                      <div className="absolute inset-0 bg-brand-primary/5 border-2 border-brand-primary/20 rounded-md flex items-center justify-center">
+                        <span className="text-brand-primary font-semibold text-sm">✓ INCLUDED</span>
+                      </div>
+                    )}
+                  </div>
+                  {state.teamLogueProvides && (
+                    <div className="mt-1 text-xs text-brand-fourth font-medium flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
+                      <span>Professional videography included</span>
+                    </div>
+                  )}
+                </div>
+                <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Photography</Label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
                     <Input
@@ -374,17 +522,17 @@ function BuyAndSellCalculator() {
                   )}
                 </div>
                 <div className={`transition-all duration-300 ${state.teamLogueProvides ? 'opacity-40' : 'opacity-100'}`}>
-                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>Marketing Costs</Label>
+                  <Label className={state.teamLogueProvides ? "text-muted-foreground" : ""}>iGuide/Floor Plan</Label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
                     <Input
                       className={`mt-2 pl-6 transition-all duration-300 ${state.teamLogueProvides ? "bg-gray-50 border-gray-200 text-muted-foreground" : ""}`}
                       type="text"
-                      placeholder="1,000"
-                      value={state.marketingCosts ? Number(state.marketingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
+                      placeholder="400"
+                      value={state.iGuideFloorPlanCosts ? Number(state.iGuideFloorPlanCosts).toLocaleString("en-US", { maximumFractionDigits: 0 }) : ''}
                       onChange={e => {
                         const raw = e.target.value.replace(/[^\d.]/g, '');
-                        dispatch({ type: 'SET_MARKETING_COSTS', payload: raw });
+                        dispatch({ type: 'SET_IGUIDE_FLOOR_PLAN_COSTS', payload: raw });
                       }}
                       disabled={state.teamLogueProvides}
                     />
@@ -397,7 +545,7 @@ function BuyAndSellCalculator() {
                   {state.teamLogueProvides && (
                     <div className="mt-1 text-xs text-brand-fourth font-medium flex items-center space-x-1">
                       <span className="w-2 h-2 bg-brand-fourth rounded-full"></span>
-                      <span>Marketing & promotion included</span>
+                      <span>iGuide & floor plan included</span>
                     </div>
                   )}
                 </div>
@@ -425,7 +573,51 @@ function BuyAndSellCalculator() {
                         state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
                       }`}>
                         <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
-                        <span className="font-body text-sm font-medium text-gray-700">Professional Staging</span>
+                        <span className="font-body text-sm font-medium text-gray-700">Traditional Staging</span>
+                        {state.teamLogueProvides && (
+                          <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
+                            INCLUDED
+                          </span>
+                        )}
+                      </div>
+                      <div className={`flex items-center space-x-2 transition-all duration-300 ${
+                        state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
+                      }`}>
+                        <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
+                        <span className="font-body text-sm font-medium text-gray-700">Virtual Staging</span>
+                        {state.teamLogueProvides && (
+                          <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
+                            INCLUDED
+                          </span>
+                        )}
+                      </div>
+                      <div className={`flex items-center space-x-2 transition-all duration-300 ${
+                        state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
+                      }`}>
+                        <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
+                        <span className="font-body text-sm font-medium text-gray-700">Virtual Renovation</span>
+                        {state.teamLogueProvides && (
+                          <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
+                            INCLUDED
+                          </span>
+                        )}
+                      </div>
+                      <div className={`flex items-center space-x-2 transition-all duration-300 ${
+                        state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
+                      }`}>
+                        <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
+                        <span className="font-body text-sm font-medium text-gray-700">Marketing & Promotion</span>
+                        {state.teamLogueProvides && (
+                          <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
+                            INCLUDED
+                          </span>
+                        )}
+                      </div>
+                      <div className={`flex items-center space-x-2 transition-all duration-300 ${
+                        state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
+                      }`}>
+                        <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
+                        <span className="font-body text-sm font-medium text-gray-700">Videography</span>
                         {state.teamLogueProvides && (
                           <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
                             INCLUDED
@@ -447,7 +639,7 @@ function BuyAndSellCalculator() {
                         state.teamLogueProvides ? 'opacity-100' : 'opacity-60'
                       }`}>
                         <div className={`w-2 h-2 rounded-full ${state.teamLogueProvides ? 'bg-brand-fourth' : 'bg-gray-400'}`}></div>
-                        <span className="font-body text-sm font-medium text-gray-700">Marketing & Promotion</span>
+                        <span className="font-body text-sm font-medium text-gray-700">iGuide/Floor Plan Creation</span>
                         {state.teamLogueProvides && (
                           <span className="text-xs bg-brand-fourth/20 text-brand-fourth px-2 py-1 rounded-full font-medium">
                             INCLUDED
@@ -694,16 +886,32 @@ function BuyAndSellCalculator() {
                     {!state.teamLogueProvides && (
                       <>
                         <div className="flex justify-between">
-                          <span>Staging Costs</span>
-                          <span>-${sell.staging.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          <span>Traditional Staging</span>
+                          <span>-${sell.traditionalStaging.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span>Photography Costs</span>
+                          <span>Virtual Staging</span>
+                          <span>-${sell.virtualStaging.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Virtual Renovation</span>
+                          <span>-${sell.virtualRenovation.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Marketing</span>
+                          <span>-${sell.marketing.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Videography</span>
+                          <span>-${sell.videography.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Photography</span>
                           <span>-${sell.photography.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span>Marketing Costs</span>
-                          <span>-${sell.marketing.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          <span>iGuide/Floor Plan</span>
+                          <span>-${sell.iGuideFloorPlan.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
                         </div>
                       </>
                     )}
@@ -721,24 +929,40 @@ function BuyAndSellCalculator() {
                         </div>
                         <div className="text-xs text-brand-primary/70 space-y-1 border-t border-brand-primary/20 pt-2">
                           <div className="flex justify-between">
-                            <span>Staging Cost Saved:</span>
-                            <span className="font-medium">${Number(state.stagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                            <span>Traditional Staging Saved:</span>
+                            <span className="font-medium">${Number(state.traditionalStagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Photography Cost Saved:</span>
+                            <span>Virtual Staging Saved:</span>
+                            <span className="font-medium">${Number(state.virtualStagingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Virtual Renovation Saved:</span>
+                            <span className="font-medium">${Number(state.virtualRenovationCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Marketing Saved:</span>
+                            <span className="font-medium">${Number(state.marketingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Videography Saved:</span>
+                            <span className="font-medium">${Number(state.videographyCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Photography Saved:</span>
                             <span className="font-medium">${Number(state.photographyCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Marketing Cost Saved:</span>
-                            <span className="font-medium">${Number(state.marketingCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                            <span>iGuide/Floor Plan Saved:</span>
+                            <span className="font-medium">${Number(state.iGuideFloorPlanCosts).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
                           </div>
                           <div className="flex justify-between border-t border-brand-primary/20 pt-1">
                             <span>HST Cost Saved:</span>
-                            <span className="font-medium">${((Number(state.stagingCosts) + Number(state.photographyCosts) + Number(state.marketingCosts)) * 0.13).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                            <span className="font-medium">${((Number(state.traditionalStagingCosts) + Number(state.virtualStagingCosts) + Number(state.virtualRenovationCosts) + Number(state.marketingCosts) + Number(state.videographyCosts) + Number(state.photographyCosts) + Number(state.iGuideFloorPlanCosts)) * 0.13).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
                           </div>
                           <div className="flex justify-between font-semibold text-brand-primary">
                             <span>Total Cost Saved:</span>
-                            <span>${(Number(state.stagingCosts) + Number(state.photographyCosts) + Number(state.marketingCosts) + (Number(state.stagingCosts) + Number(state.photographyCosts) + Number(state.marketingCosts)) * 0.13).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                            <span>${(Number(state.traditionalStagingCosts) + Number(state.virtualStagingCosts) + Number(state.virtualRenovationCosts) + Number(state.marketingCosts) + Number(state.videographyCosts) + Number(state.photographyCosts) + Number(state.iGuideFloorPlanCosts) + (Number(state.traditionalStagingCosts) + Number(state.virtualStagingCosts) + Number(state.virtualRenovationCosts) + Number(state.marketingCosts) + Number(state.videographyCosts) + Number(state.photographyCosts) + Number(state.iGuideFloorPlanCosts)) * 0.13).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
                           </div>
                         </div>
                       </div>
